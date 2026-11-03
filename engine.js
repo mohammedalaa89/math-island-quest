@@ -11,21 +11,51 @@ function addTest(t) { TESTS.push(t); }
    a unit with an island id is playable, the rest show as "coming next". */
 const SUBJECTS = [
   { id: 'math', name: 'Math', ar: 'الرياضيات', pic: '🔢', color: '#FF8A3D', shade: '#C9601F', units: [
-    ['Multiplication: equal groups and arrays', 'times'], ['Division: sharing equally', 'mathgame'], ['Times tables 2 to 10'], ['Place value and rounding'],
-    ['Adding and subtracting to 1,000'], ['Fractions'], ['Telling time'], ['Area and perimeter'], ['Measurement: mass and volume'], ['Graphs and data'], ['Shapes'] ] },
+    /* follows her book: enVision Mathematics Common Core, Grade 3 (Savvas), topics in book order */
+    { sec: 'enVision Mathematics · Grade 3', secAr: 'كتاب الرياضيات · الصف الثالث', note: 'Topics in the same order as her book', noteAr: 'المواضيع بنفس ترتيب كتابها' },
+    ['Topic 1: Understand multiplication and division', 'times'], ['Topic 1 game: Math Island quiz', 'mathgame'],
+    ['Topic 2: Multiplication facts: use patterns'], ['Topic 3: Multiplication facts for 3, 4, 6, 7, 8'], ['Topic 4: Use multiplication to divide'],
+    ['Topic 5: Multiply and divide within 100'], ['Topic 6: Area, multiplication and addition'], ['Topic 7: Represent and interpret data'],
+    ['Topic 8: Strategies to add and subtract'], ['Topic 9: Add and subtract within 1,000'], ['Topic 10: Multiply by multiples of 10'],
+    ['Topic 11: Solve problems with whole numbers'], ['Topic 12: Understand fractions as numbers'], ['Topic 13: Fraction equivalence and comparison'],
+    ['Topic 14: Time, capacity and mass'], ['Topic 15: Two-dimensional shapes'], ['Topic 16: Perimeter'] ] },
   { id: 'english', name: 'English', ar: 'اللغة الإنجليزية', pic: '📖', color: '#7C4DFF', shade: '#5631C9', units: [
-    ['Big and small letters', 'letters'], ['Nouns and capital letters', 'grammar'], ['Phonics: long vowel sounds', 'phonics'], ['Vocabulary', 'vocab'], ['Reading: understanding stories', 'story'],
-    ['Verbs and tenses'], ['Adjectives and adverbs'], ['Plurals'], ['Punctuation'], ['Synonyms and antonyms'], ['Prefixes and suffixes'] ] },
+    /* follows her book: Our Literacy World G3 (Obelas, KSA edition) */
+    { sec: 'Unit 3: Staying Healthy', secAr: 'الوحدة ٣: الحفاظ على الصحة', note: 'In class now · How do our bodies work?', noteAr: 'ندرسها الآن في الصف · كيف تعمل أجسامنا؟' },
+    ['Kickoff: bodies, health and story types', 'healthy'], ['Anchor text: Training Days'], ['Lesson 1: Happy and Healthy'], ['Lesson 2: You and Your Brain'], ['Lesson 3: Amara’s Bicycle'],
+    ['Lesson 4: Micro-Ray'], ['Lesson 5: Meet the Nanobots'], ['Lesson 6: The Race'], ['Finish Line: unit review'],
+    { sec: 'Foundations and revision', secAr: 'الأساسيات والمراجعة', note: 'Letters, grammar, phonics and the Young Adventurers papers', noteAr: 'الحروف والقواعد والصوتيات وأوراق المغامرين الصغار' },
+    ['Big and small letters', 'letters'], ['Nouns and capital letters', 'grammar'], ['Phonics: the long-a sound', 'phonics'], ['Vocabulary: adventure words', 'vocab'], ['Reading: Young Adventurers', 'story'] ] },
   { id: 'science', name: 'Science', ar: 'العلوم', pic: '🔬', color: '#22B566', shade: '#168048', units: [
     ['Living things and their needs', 'lifelab'], ['Life cycles'], ['Plants'], ['Animals and their habitats'], ['Forces and magnets'], ['Weather and climate'], ['Matter: solid, liquid, gas'], ['Fossils'] ] },
   { id: 'social', name: 'Social Studies', ar: 'الدراسات الاجتماعية', pic: '🗺️', color: '#2E9BF0', shade: '#1C6FB0', units: [['Maps and directions'], ['My community'], ['Saudi Arabia'], ['Jobs and money']] },
-  { id: 'arabic', name: 'Arabic', ar: 'اللغة العربية', pic: '✍️', color: '#F0466B', shade: '#B82C4C', units: [] },
-  { id: 'islamic', name: 'Islamic Studies', ar: 'التربية الإسلامية', pic: '🕌', color: '#13A89E', shade: '#0B7A72', units: [] },
+  { id: 'arabic', name: 'Arabic', ar: 'اللغة العربية', pic: '✍️', color: '#F0466B', shade: '#B82C4C', units: [
+    /* follows her book: لغتي، الصف الثالث، الجزء الأول */
+    { sec: 'مراجعة المكتسبات السابقة', secAr: 'مراجعة المكتسبات السابقة', note: 'Review', noteAr: 'مراجعة ما تعلّمناه' },
+    ['اللام الشمسية واللام القمرية', 'shamsiya'], ['التنوين', 'tanween'], ['أتعلّم فنّ الخط'],
+    { sec: 'الوحدة ١: التعامل مع الآخرين', secAr: 'الوحدة ١: التعامل مع الآخرين' }, ['الدرس ١: عادل في الطائرة'], ['الدرس ٢: عام دراسي جديد'], ['نموذج اختبار (١)'],
+    { sec: 'الوحدة ٢: ربوع من بلادي', secAr: 'الوحدة ٢: ربوع من بلادي' }, ['الدرس ١: الرياض والملك الشجاع'], ['الدرس ٢: مصايفنا'], ['نموذج اختبار (٢)'],
+    { sec: 'الوحدة ٣: أخلاق المسلم', secAr: 'الوحدة ٣: أخلاق المسلم' }, ['الدرس ١: التعاون'], ['الدرس ٢: الإيثار'], ['نموذج اختبار (٣)'],
+    { sec: 'الوحدة ٤: وسائل الاتصالات', secAr: 'الوحدة ٤: وسائل الاتصالات' }, ['الدرس ١: الهاتف المحمول'], ['الدرس ٢: الأقمار الصناعية'], ['نموذج اختبار (٤)'] ] },
+  { id: 'islamic', name: 'Islamic Studies', ar: 'التربية الإسلامية', pic: '🕌', color: '#13A89E', shade: '#0B7A72', units: [
+    /* follows her book (Grade 3, volume 1) */
+    { sec: 'التوحيد', secAr: 'التوحيد', note: 'Tawheed', noteAr: 'الوحدة الأولى: مراتب الدين · الوحدة الثانية: أركان الإسلام' },
+    ['الدرس ١: مراتب الدين', 'deen'], ['الدرس ٢: أركان الإسلام', 'pillars'], ['الدرس ٣: شهادة أن لا إله إلا الله'], ['الدرس ٤: شهادة أن محمداً رسول الله'],
+    ['الدرس ٥: إقام الصلاة'], ['الدرس ٦: إيتاء الزكاة'], ['الدرس ٧: صوم رمضان'], ['الدرس ٨: حج بيت الله الحرام'],
+    { sec: 'الفقه والسلوك', secAr: 'الفقه والسلوك', note: 'Fiqh and good manners', noteAr: 'الطهارة والتيمم والصلاة والمسجد' },
+    ['الدرس ١: آداب قضاء الحاجة (١)'], ['الدرس ٢: آداب قضاء الحاجة (٢)'], ['الدرس ٣: إزالة النجاسة عن البدن'], ['الدرس ٤: إزالة النجاسة عن الملابس ومكان الصلاة'],
+    ['الدرس ٥: التيمم'], ['الدرس ٦: مكانة الصلاة'], ['الدرس ٧: شروط الصلاة (١)'], ['الدرس ٨: شروط الصلاة (٢)'], ['الدرس ٩: آداب دخول المسجد والخروج منه'], ['الدرس ١٠: صلاة الجماعة'],
+    { sec: 'القرآن الكريم', secAr: 'القرآن الكريم', note: 'Quran plan', noteAr: 'خطة مقرر القرآن الكريم' }, ['السور المقررة'] ] },
 ];
 /* Islands group lessons inside a subject */
 const ISLANDS = [
   { id: 'mathgame', subject: 'math',    name: 'Math Island',   sub: 'Times and sharing game',        color: '#FF8A3D', shade: '#C9601F', pic: '🍎', href: 'math.html' },
   { id: 'times',    subject: 'math',    name: 'Times Tree',    sub: 'Multiplication with pictures', color: '#FF8A3D', shade: '#C9601F', pic: '🍉' },
+  { id: 'healthy',  subject: 'english', name: 'Healthy Harbor', sub: 'Unit 3: Staying Healthy',     color: '#F0466B', shade: '#B82C4C', pic: '🏃' },
+  { id: 'shamsiya', subject: 'arabic',  name: 'جزيرة الشمس والقمر', sub: 'اللام الشمسية والقمرية', color: '#F0466B', shade: '#B82C4C', pic: '☀️' },
+  { id: 'tanween',  subject: 'arabic',  name: 'جزيرة التنوين', sub: 'ضمّتان وفتحتان وكسرتان', color: '#F0466B', shade: '#B82C4C', pic: '✨' },
+  { id: 'deen',     subject: 'islamic', name: 'جزيرة مراتب الدين', sub: 'الإسلام والإيمان والإحسان', color: '#13A89E', shade: '#0B7A72', pic: '🕌' },
+  { id: 'pillars',  subject: 'islamic', name: 'جزيرة أركان الإسلام', sub: 'الأركان الخمسة', color: '#13A89E', shade: '#0B7A72', pic: '🕋' },
   { id: 'letters',  subject: 'english', name: 'Letter Land',   sub: 'Big and small letters',        color: '#13A89E', shade: '#0B7A72', pic: '🔠' },
   { id: 'grammar',  subject: 'english', name: 'Grammar Grove', sub: 'Nouns and capital letters',    color: '#22B566', shade: '#168048', pic: '🌳' },
   { id: 'phonics',  subject: 'english', name: 'Phonics Falls', sub: 'Letter sounds and spelling',   color: '#2E9BF0', shade: '#1C6FB0', pic: '💧' },
@@ -73,8 +103,11 @@ function mathFrac() { const d = mathState().done || [0, 0, 0, 0], n = [6, 4, 15,
 /* ---------- English + Arabic ---------- */
 /* S.lang: 'en' = Pip explains in English, 'ar' = Pip explains in Arabic (she chooses; one language at a time) */
 const LANG_LABEL = { en: 'English', ar: 'عربي' };
+let LANG_OVR = null; /* set while inside an Arabic-only lesson */
+const curLang = () => LANG_OVR || S.lang;
+function useLessonLang(l) { LANG_OVR = l && l.lang === 'ar' ? 'ar' : null; document.body.classList.toggle('rtl', !!LANG_OVR); }
 const arSpan = t => `<span class="ar" dir="rtl" lang="ar">${t}</span>`;
-function bi(en, ar) { return ar && S.lang === 'ar' ? arSpan(ar) : en; }
+function bi(en, ar) { return ar && curLang() === 'ar' ? arSpan(ar) : en; }
 /* Arabic for Pip's common phrases (feminine: she is a girl) */
 const AR = {
   'Read the question, then tap the best answer.': 'اقرئي السؤال، ثم اضغطي على الإجابة الصحيحة.',
@@ -142,6 +175,7 @@ function bestVoice(lang) {
 const SPEAK_FIX = [[/<br\s*\/?>/g, '. '], [/<[^>]+>/g, ''], [/_{2,}/g, ' blank '], [/\ba_e\b/g, 'a, consonant, e'], [/\/ā\//g, '"ay"'], [/&[a-z]+;/g, ' '], [/\p{Extended_Pictographic}|\uFE0F|\u200D/gu, ' '], [/[▶◀✓➜→←×÷]/g, m => ({ '×': ' times ', '÷': ' divided by ' }[m] || ' ')]];
 const cleanSpeech = t => { let c = String(t); SPEAK_FIX.forEach(([a, b]) => { c = c.replace(a, b); }); return c.replace(/\s+/g, ' ').trim(); };
 function speakOne(text, lang) {
+  if (/[\u0600-\u06FF]/.test(text) && !/[A-Za-z]{3,}/.test(cleanSpeech(text))) lang = 'ar';
   const u = new SpeechSynthesisUtterance(cleanSpeech(text)); if (!u.text) return;
   const v = bestVoice(lang); if (v) u.voice = v;
   u.lang = v ? v.lang : (lang === 'ar' ? 'ar-SA' : 'en-US');
@@ -153,8 +187,8 @@ function say(t, force, ar) {
   if (!S.read && !force) return;
   try {
     speechSynthesis.cancel();
-    if (S.lang !== 'ar' || !ar) speakOne(t, 'en');
-    if (ar && S.lang !== 'en') speakOne(ar, 'ar');
+    if (curLang() !== 'ar' || !ar) speakOne(t, 'en');
+    if (ar && curLang() !== 'en') speakOne(ar, 'ar');
   } catch (e) {}
 }
 
@@ -235,6 +269,7 @@ function paint(html) { app().innerHTML = html; wireTop(); window.scrollTo(0, 0);
 function go(h) { if (location.hash === '#' + h) route(); else location.hash = h; }
 function route() {
   TOK++; try { speechSynthesis.cancel(); } catch (e) {}
+  useLessonLang(null);
   const h = decodeURIComponent(location.hash.slice(1)); let m;
   if (!S.name) return nameScreen();
   if (!S.langChosen) return langScreen();
@@ -285,7 +320,7 @@ function home() {
     const nt = subjTests(sj.id).length, ready = sj.units.filter(u => u[1]).length;
     const fresh = subjLessons(sj.id).some(isNew) || subjTests(sj.id).some(t => (Date.now() - new Date(t.added)) / 864e5 < 14);
     return `<div class="scard" style="--c:${sj.color};--cs:${sj.shade};animation-delay:${k * .07}s">${fresh ? '<span class="new">New!</span>' : ''}
-      <div class="sh2"><span class="blob">${sj.pic}</span><div><b>${sj.name}</b>${S.lang === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${sj.ar}</span>` : ''}</div></div>
+      <div class="sh2"><span class="blob">${sj.pic}</span><div><b>${sj.name}</b>${curLang() === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${sj.ar}</span>` : ''}</div></div>
       <div class="sbtns"><button class="big sb" data-to="t-${sj.id}">📝 Tests <span class="cnt">${nt}</span></button><button class="big sb alt2" data-to="u-${sj.id}">🏝️ Lessons <span class="cnt">${ready}</span></button></div></div>`;
   }).join('');
   paint(topBar() + `<div class="card hero"><div class="pipw">${PIP}</div><div class="t"><h1>Hi ${esc(S.name)}!</h1><p class="muted">${bi('What shall we learn today? Pick a subject.', 'ماذا سنتعلّم اليوم؟ اختاري مادة.')}</p>
@@ -315,7 +350,13 @@ const quizPassed = (l, i) => (((S.prog[l.id] || {}).stars || {})[i] | 0) >= PASS
 const lessonPassed = l => { const p = S.prog[l.id]; return !!p && p.learn && l.acts.every((_, i) => quizPassed(l, i)); };
 const islandLessons = I => LESSONS.filter(l => l.island === I.id);
 const islandPassed = I => I.href ? true : islandLessons(I).length > 0 && islandLessons(I).every(lessonPassed);
-function unitLockedBy(sj, idx) { for (let k = 0; k < idx; k++) { const u = sj.units[k]; if (u[1] && !islandPassed(ISL(u[1]))) return k; } return -1; }
+/* an island is locked until every earlier island in the same section is passed */
+function unitLockedBy(sj, idx) {
+  let k0 = 0; for (let k = idx - 1; k >= 0; k--) if (sj.units[k].sec) { k0 = k + 1; break; }
+  for (let k = k0; k < idx; k++) { const u = sj.units[k]; if (u[1] && !islandPassed(ISL(u[1]))) return k; } return -1;
+}
+/* island number inside its section */
+function unitNum(sj, idx) { let n = 0; for (let k = idx; k >= 0 && !sj.units[k].sec; k--) n++; return n; }
 function openIsland(I) { if (I.href) { location.href = I.href; return; } const ls = islandLessons(I); go(ls.length === 1 ? 'l-' + ls[0].id : 'i-' + I.id); }
 
 /* the subject's island map, in school order */
@@ -323,6 +364,7 @@ function unitsPage(sid) {
   const sj = SUBJ(sid); if (!sj) return home(); setColor(sj);
   let cur = -1;
   const stops = sj.units.map((u, k) => {
+    if (u.sec) return { sec: u, k };
     const I = u[1] && ISL(u[1]), lockBy = unitLockedBy(sj, k);
     const state = !I ? 'later' : lockBy >= 0 ? 'locked' : islandPassed(I) && !I.href ? 'done' : 'open';
     if (state === 'open' && cur < 0) cur = k;
@@ -330,19 +372,20 @@ function unitsPage(sid) {
     if (state === 'done') info = bi('Passed! 🚩', 'نجحتِ! 🚩');
     else if (state === 'open' && I.href) info = bi('Play the game', 'العبي اللعبة');
     else if (state === 'open') { const ls = islandLessons(I); const got = ls.reduce((a, l) => a + l.acts.filter((_, i) => quizPassed(l, i)).length, 0), all = ls.reduce((a, l) => a + l.acts.length, 0); info = bi(`${got} of ${all} quizzes passed`, `اجتزتِ ${got} من ${all} اختبارات`); }
-    else if (state === 'locked') info = bi(`Pass Unit ${lockBy + 1} to open`, `اجتازي الوحدة ${lockBy + 1} لتفتح`);
+    else if (state === 'locked') info = bi(`Pass island ${unitNum(sj, lockBy)} to open`, `اجتازي الجزيرة ${unitNum(sj, lockBy)} لتفتح`);
     else info = bi('Coming soon', 'قريباً');
     return { u, k, I, state, info, lockBy };
   });
-  const html = stops.map((st, n) => `${n ? `<div class="wave ${n % 2 ? 'a' : 'b'}"></div>` : ''}<div class="mstop ${st.state} ${n % 2 ? 'r' : 'l'}">
+  let side = 0;
+  const html = stops.map((st, n) => st.sec ? (side = 0, `<div class="msec"><b>${bi(esc(st.sec.sec), st.sec.secAr)}</b>${st.sec.note ? `<span>${bi(esc(st.sec.note), st.sec.noteAr)}</span>` : ''}</div>`) : `${side++ ? `<div class="wave ${side % 2 ? 'b' : 'a'}"></div>` : ''}<div class="mstop ${st.state} ${side % 2 ? 'l' : 'r'}">
     <button class="mi" data-k="${st.k}"><span class="iblob" style="--ic:${st.I ? st.I.color : '#9AA8C2'};animation-delay:${n * .08}s">${st.state === 'locked' ? '🔒' : st.state === 'later' ? '🌴' : st.I.pic}${st.state === 'done' ? '<i class="flag">🚩</i>' : ''}${st.k === cur ? `<span class="pipon">${PIP}</span>` : ''}</span>
-    <span class="m"><span class="unum">Unit ${st.k + 1}</span><b>${esc(st.u[0])}</b><span>${st.info}</span></span></button></div>`).join('');
+    <span class="m"><span class="unum">Island ${unitNum(sj, st.k)}</span><b>${esc(st.u[0])}</b><span>${st.info}</span></span></button></div>`).join('');
   paint(topBar({ to: 'home', label: 'Subjects' }) + `<div class="banner"><span class="blob">${sj.pic}</span><div><h1>${sj.name} islands</h1><p>${bi('Pass each island’s quizzes with 2 stars or more to sail to the next island!', 'اجتازي اختبارات كل جزيرة بنجمتين أو أكثر لتبحري إلى الجزيرة التالية!')}</p></div></div>
     ${sj.units.length ? `<div class="sea"><div class="imap">${html}</div></div>` : `<div class="soon">${bi('Lessons for this subject are coming soon.', 'دروس هذه المادة قادمة قريباً.')}</div>`}`);
   $$('.mi').forEach(b => b.onclick = () => {
     const st = stops[+b.dataset.k];
     if (st.state === 'open' || st.state === 'done') openIsland(st.I);
-    else if (st.state === 'locked') { shake(b); SFX.no(); say(`This island is locked. Pass unit ${st.lockBy + 1} first!`, true, `هذه الجزيرة مقفلة. اجتازي الوحدة ${st.lockBy + 1} أولاً!`); }
+    else if (st.state === 'locked') { shake(b); SFX.no(); say(`This island is locked. Pass island ${unitNum(sj, st.lockBy)} first!`, true, `هذه الجزيرة مقفلة. اجتازي الجزيرة ${unitNum(sj, st.lockBy)} أولاً!`); }
     else say('This island is coming soon!', true, 'هذه الجزيرة قادمة قريباً!');
   });
   const c0 = $('.mstop .pipon'); if (c0) setTimeout(() => { try { c0.closest('.mstop').scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' }); } catch (e) {} }, 300);
@@ -359,7 +402,7 @@ function islandPage(id) {
   say(I.name + '. Pick a lesson.');
 }
 function lessonPage(id) {
-  const l = LES(id); if (!l) return home(); const I = ISL(l.island); setColor(I);
+  const l = LES(id); if (!l) return home(); const I = ISL(l.island); setColor(I); useLessonLang(l);
   const p = S.prog[l.id] || { learn: false, stars: {} };
   const steps = [{ name: '1. Learn the lesson', sub: 'Watch, listen and tap', pic: '📖', to: 'learn-' + id, done: p.learn, stars: -1 }]
     .concat(l.acts.map((a, i) => ({ name: `${i + 2}. Quiz: ${a.title}`, sub: (p.stars[i] | 0) === 1 ? 'Score 2 stars to pass. Try again!' : (a.sub || TYPE_SUB[a.type]), pic: a.pic || TYPE_PIC[a.type], to: `a-${id}-${i}`, done: (p.stars[i] | 0) >= PASS, stars: p.stars[i] | 0 })));
@@ -396,7 +439,7 @@ function voicePage() {
 
 /* ---------- learn slides ---------- */
 function learnPage(id) {
-  const l = LES(id); if (!l) return home(); const I = ISL(l.island); setColor(I);
+  const l = LES(id); if (!l) return home(); const I = ISL(l.island); setColor(I); useLessonLang(l);
   const n = l.learn.length; let k = 0; const my = TOK;
   const show = () => {
     if (my !== TOK) return;
@@ -501,7 +544,7 @@ const SHOW = {
     $$('.bigword', st).forEach(b => b.onclick = () => say(b.dataset.w, true));
   },
   flashgrid(st, d, l) {
-    st.innerHTML = `<p class="count">${bi('Tap each card to flip it!', 'اضغطي على كل بطاقة لتقلبيها!')}</p><div class="fgrid">${l.words.map((x, j) => `<button class="fcard" style="animation-delay:${j * .08}s" data-j="${j}"><div class="fr"><i>${x[1]}</i><b>${esc(x[0])}</b></div><div class="bk">${esc(x[2])}${x[4] && S.lang === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${x[4]}</span>` : ''}</div></button>`).join('')}</div>`;
+    st.innerHTML = `<p class="count">${bi('Tap each card to flip it!', 'اضغطي على كل بطاقة لتقلبيها!')}</p><div class="fgrid">${l.words.map((x, j) => `<button class="fcard" style="animation-delay:${j * .08}s" data-j="${j}"><div class="fr"><i>${x[1]}</i><b>${esc(x[0])}</b></div><div class="bk">${esc(x[2])}${x[4] && curLang() === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${x[4]}</span>` : ''}</div></button>`).join('')}</div>`;
     $$('.fcard', st).forEach(b => b.onclick = () => { const x = l.words[b.dataset.j]; b.classList.toggle('on'); SFX.pop(); const on = b.classList.contains('on'); say(on ? `${x[0]} means ${x[2]}` : x[0], true, on ? x[4] : null); });
   },
   book(st, d) {
@@ -538,7 +581,7 @@ function prep(a, l) {
 }
 function actPage(id, i) {
   const l = LES(id); if (!l) return home(); const a0 = l.acts[i]; if (!a0) return lessonPage(id);
-  const a = prep(a0, l), I = ISL(l.island); setColor(I);
+  const a = prep(a0, l), I = ISL(l.island); setColor(I); useLessonLang(l);
   const my = TOK; let miss = 0;
   paint(topBar({ to: 'l-' + id, label: l.title }) + `<div class="qhead"><span class="tag">${esc(a.title)}</span><div class="bar"><i id="pb" style="width:0%"></i></div></div>
     <div class="coach" id="coach"><div class="pipw">${PIP}</div><div class="bubble" id="bub"></div></div><div class="card play" id="area"></div>`);
@@ -570,9 +613,9 @@ function actPage(id, i) {
         <h1>${passed ? (islandDone ? bi('Island passed! 🚩', 'اجتزتِ الجزيرة! 🚩') : bi(PRAISE[stars][0], PRAISE[stars][1])) : bi('Almost there!', 'اقتربتِ كثيراً!')}</h1>
         <p class="muted">${passed ? (miss === 0 ? bi('No mistakes at all! Quiz passed.', 'بدون أي خطأ! نجحتِ في الاختبار.') : bi(`Quiz passed! You fixed ${miss} mistake${miss > 1 ? 's' : ''} along the way.`, `نجحتِ في الاختبار! وصحّحتِ ${miss} من الأخطاء.`))
           : bi('You need 2 stars to pass. Watch the lesson again if you like, then try again. You can do it!', 'تحتاجين نجمتين لتنجحي. شاهدي الدرس مرة أخرى إن أحببتِ، ثم حاولي من جديد. أنتِ تقدرين!')}</p>
-        ${passed ? `<button class="big wide" id="nx">${ni != null ? 'Next quiz: ' + esc(l.acts[ni].title) + ' ▶' : islandDone ? 'Sail to the next island ⛵' : 'Back to the islands ▶'}</button>`
-          : `<button class="big wide" id="ag2">Try again ▶</button><button class="big alt wide" id="lr">📖 Watch the lesson again</button>`}
-        ${passed ? '<button class="big alt wide" id="ag">Play again with new questions</button>' : ''}</div>`;
+        ${passed ? `<button class="big wide" id="nx">${LANG_OVR ? (ni != null ? 'الاختبار التالي: ' + esc(l.acts[ni].title) : islandDone ? 'أبحري إلى الجزيرة التالية ⛵' : 'العودة إلى الجزر') : ni != null ? 'Next quiz: ' + esc(l.acts[ni].title) + ' ▶' : islandDone ? 'Sail to the next island ⛵' : 'Back to the islands ▶'}</button>`
+          : `<button class="big wide" id="ag2">${LANG_OVR ? 'حاولي مرة أخرى' : 'Try again ▶'}</button><button class="big alt wide" id="lr">📖 ${LANG_OVR ? 'شاهدي الدرس مرة أخرى' : 'Watch the lesson again'}</button>`}
+        ${passed ? `<button class="big alt wide" id="ag">${LANG_OVR ? 'العبي مرة أخرى بأسئلة جديدة' : 'Play again with new questions'}</button>` : ''}</div>`;
       c.coach(passed ? (islandDone ? `You passed the whole island, ${esc(S.name)}! The next island is open!` : `Amazing, ${esc(S.name)}! You passed!`) : `Good try, ${esc(S.name)}! Two stars will pass it. Let's try again!`,
         passed ? 'happy' : 'think', false,
         passed ? (islandDone ? `اجتزتِ الجزيرة كلها يا ${esc(S.name)}! الجزيرة التالية مفتوحة الآن!` : `رائع يا ${esc(S.name)}! لقد نجحتِ!`) : `محاولة جيدة يا ${esc(S.name)}! نجمتان تكفيان للنجاح. هيا نحاول مرة أخرى!`);
@@ -596,7 +639,7 @@ const ENG = {
       const it = items[i], opts = (it.keep || a.keep) ? it.opts : shuffle(it.opts), long = opts.some(o => String(o).length > 16);
       c.area.innerHTML = `${it.pic ? `<div class="scene${it.pic.startsWith('<') ? ' html' : ''}">${it.pic}</div>` : ''}<div class="q">${bi(it.q, it.qAr)}</div><div class="row"><button class="hear" id="hr">${SPK} Read to me</button></div>
         <div class="opts${long ? ' long' : ''}${a.big ? ' bigl' : ''}">${opts.map(o => `<button class="opt" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><button class="big wide" id="nx" hidden>Next ▶</button>`;
-      const read = (it.read || it.q) + '. ' + opts.join('. Or, ') + '?';
+      const read = (it.read || it.q) + '. ' + opts.join(curLang() === 'ar' ? '، أو ' : '. Or, ') + '?';
       say(read, false, it.qAr); $('#hr', c.area).onclick = () => say(read, true, it.qAr);
       if (i === 0) c.tell(a.start || 'Read the question, then tap the best answer.', a.startAr, '', it, null, true);
       else c.coach('Here comes the next one!', null, true);
@@ -622,7 +665,7 @@ const ENG = {
     const ask = a.ask || 'Drag each word into the right box. Or tap a word, then tap a box.';
     c.area.innerHTML = `<p class="count">${bi(ask, a.askAr || AR[ask])}</p>
       <div class="tray${a.big ? ' bigl' : ''}" id="tray">${items.map((it, k) => `<button class="chip" data-k="${k}">${esc(it.w)}</button>`).join('')}</div>
-      <div class="bins${a.buckets.length > 4 ? ' six' : ''}">${a.buckets.map((b, k) => `<div class="bin" data-b="${k}"${b.color ? ` style="border-color:${b.color}"` : ''}><div class="lb"${b.color ? ` style="color:${b.color}"` : ''}>${b.pic ? `<i>${b.pic}</i>` : ''}${esc(b.label)}</div>${b.labelAr && S.lang === 'ar' ? `<div class="ar" dir="rtl" lang="ar">${b.labelAr}</div>` : ''}<div class="in"></div></div>`).join('')}</div>`;
+      <div class="bins${a.buckets.length > 4 ? ' six' : ''}">${a.buckets.map((b, k) => `<div class="bin" data-b="${k}"${b.color ? ` style="border-color:${b.color}"` : ''}><div class="lb"${b.color ? ` style="color:${b.color}"` : ''}>${b.pic ? `<i>${b.pic}</i>` : ''}${esc(b.label)}</div>${b.labelAr && curLang() === 'ar' ? `<div class="ar" dir="rtl" lang="ar">${b.labelAr}</div>` : ''}<div class="in"></div></div>`).join('')}</div>`;
     c.tell(a.start || 'Pick up a word and drop it in the right box!', a.startAr);
     const tray = $('#tray', c.area), bins = $$('.bin', c.area);
     const select = ch => {
@@ -752,7 +795,7 @@ const ENG = {
       if (!c.alive()) return; c.progress(i / items.length);
       const it = items[i], bank = it.bank ? shuffle(it.bank) : shuffle([it.ans, ...pick(a.bank.filter(w => w !== it.ans), (a.choices || 4) - 1)]);
       const [p0, p1] = it.s.split('___');
-      c.area.innerHTML = `${it.pic ? `<div class="scene${it.pic.startsWith('<') ? ' html' : ''}">${it.pic}</div>` : ''}<div class="sent">${esc(p0)}<span class="slot" id="slot">?</span>${esc(p1 || '')}</div>${it.sAr && S.lang === 'ar' ? `<p class="ar" dir="rtl" lang="ar" style="text-align:center">${it.sAr}</p>` : ''}
+      c.area.innerHTML = `${it.pic ? `<div class="scene${it.pic.startsWith('<') ? ' html' : ''}">${it.pic}</div>` : ''}<div class="sent">${esc(p0)}<span class="slot" id="slot">?</span>${esc(p1 || '')}</div>${it.sAr && curLang() === 'ar' ? `<p class="ar" dir="rtl" lang="ar" style="text-align:center">${it.sAr}</p>` : ''}
         <div class="row" style="justify-content:center"><button class="hear" id="hr">${SPK} Read to me</button></div>
         <div class="tray" id="tray">${bank.map(w => `<button class="chip" data-w="${esc(w)}">${esc(w)}</button>`).join('')}</div><button class="big wide" id="nx" hidden>Next ▶</button>`;
       say(it.s); $('#hr', c.area).onclick = () => say(it.s, true);
@@ -783,7 +826,7 @@ const ENG = {
     let done = 0, L = null, R = null;
     const ask = a.ask || 'Tap a word, then tap what it means.';
     c.area.innerHTML = `<p class="count">${bi(ask, a.askAr || AR[ask])}</p><div class="match${a.big ? ' bigl' : ''}"><div class="mcol">${shuffle(pairs.map((_, k) => k)).map(k => `<button class="mc w" data-k="${k}">${pairs[k][2] ? `<span class="e">${pairs[k][2]}</span>` : ''}${esc(pairs[k][0])}</button>`).join('')}</div>
-      <div class="mcol">${shuffle(pairs.map((_, k) => k)).map(k => `<button class="mc m" data-k="${k}">${esc(pairs[k][1])}${pairs[k][4] && S.lang === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${pairs[k][4]}</span>` : ''}</button>`).join('')}</div></div>`;
+      <div class="mcol">${shuffle(pairs.map((_, k) => k)).map(k => `<button class="mc m" data-k="${k}">${esc(pairs[k][1])}${pairs[k][4] && curLang() === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${pairs[k][4]}</span>` : ''}</button>`).join('')}</div></div>`;
     c.tell(a.start || 'Find the meaning for each word!', a.startAr);
     const check = () => {
       if (!L || !R) return;

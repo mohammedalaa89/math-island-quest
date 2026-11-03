@@ -12,6 +12,15 @@ Plain HTML/CSS/JS, no build step. Her family speaks Arabic at home; she picks wh
 - `tests.js` – school tests/worksheets the parent uploaded, `addTest({...})`, each with a Practice route and "📖 Lesson" reference buttons.
 - `math.html` – the older stand-alone math game (its own code; links back home).
 
+## Her school books (unit lists in `SUBJECTS` follow them, in book order)
+- Math: enVision Mathematics Common Core, Grade 3 (Savvas), Topics 1–16.
+- English: Our Literacy World G3 (Obelas, KSA edition). Unit 3 "Staying Healthy": Kickoff, Training Days, Lessons 1–6 (+ checkpoints), Finish Line.
+- Arabic: لغتي الصف الثالث الجزء الأول: مراجعة المكتسبات، ثم ٤ وحدات (درسان + نموذج اختبار لكل وحدة).
+- Islamic Studies: التوحيد (٨ دروس)، الفقه والسلوك (١٠ دروس)، خطة القرآن الكريم.
+Unit lists can contain section headers `{ sec, secAr, note, noteAr }`; islands lock only within their own section.
+Never copy book text: write our own explanations and questions on the same skills. For story lessons, ask the parent for photos of the lesson pages.
+Arabic and Islamic Studies lessons set `lang: 'ar'`: everything shows and speaks in Arabic, right-to-left, whatever she picked.
+
 ## Navigation
 Home → subject card → **📝 Tests** (uploaded papers) or **🏝️ Lessons** (island map of grade 3 units in school order).
 Island map: a unit unlocks only when every earlier unit's lessons are passed. Lesson: "1. Learn the lesson", then "2. Quiz…", "3. Quiz…";
