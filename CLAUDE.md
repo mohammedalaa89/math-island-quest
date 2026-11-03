@@ -44,5 +44,6 @@ addLesson({
    - Never the same questions every time: a pool bigger than `pick`, or generated numbers.
    - Add extra practice beyond the worksheet, in the same style. Follow the school's unit order.
    - Name and language are asked only on the first visit (localStorage).
-8. Test with Playwright: play every quiz to the end at 820px and 390px wide, in both languages; check no horizontal overflow and no console errors.
+8. Bump the `?v=` number on every `<script>`/`<link>` in `index.html` when files change, so the iPad loads the new version at once.
+9. Test with Playwright: play every quiz to the end at 820px and 390px wide, in both languages; check no horizontal overflow and no console errors.
    Then commit and push to `main` with the GitHub noreply email (34958470+mohammedalaa89@users.noreply.github.com).
