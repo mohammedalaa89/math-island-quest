@@ -1,34 +1,35 @@
 /* From worksheet: Young Adventurers – Vocabulary Review */
 const ADV_WORDS = [
-  ['adventure', '🧗', 'an exciting and often risky experience', 'Trying a new sport can be an adventure.'],
-  ['extraordinary', '🌟', 'very special or amazing', 'The view from the mountain was extraordinary.'],
-  ['courage', '🦁', 'being brave when something is hard or scary', 'She showed courage and climbed the tall mountain.'],
-  ['practice', '🎯', 'doing something again and again to get better', 'You must practice to get better.'],
-  ['equipment', '🎒', 'the tools or supplies you need', 'Divers wear equipment like tanks and masks.'],
-  ['dangerous', '⚠️', 'likely to cause harm or injury', 'Climbing a high mountain can be dangerous.'],
-  ['parachute', '🪂', 'helps a person fall slowly from the sky', 'A parachute helps a skydiver land safely.'],
-  ['shipwreck', '⚓', 'a broken ship in the water', 'The divers found an old shipwreck.'],
-  ['explore', '🧭', 'to travel to a place to discover or learn about it', 'We love to explore new places.'],
-  ['accomplished', '🏆', 'completed something important or difficult', 'Laura accomplished something amazing.'],
+  ['adventure', '🧗', 'an exciting and often risky experience', 'Trying a new sport can be an adventure.', 'مغامرة'],
+  ['extraordinary', '🌟', 'very special or amazing', 'The view from the mountain was extraordinary.', 'رائع ومميّز جداً'],
+  ['courage', '🦁', 'being brave when something is hard or scary', 'She showed courage and climbed the tall mountain.', 'شجاعة'],
+  ['practice', '🎯', 'doing something again and again to get better', 'You must practice to get better.', 'تمرين وتدريب'],
+  ['equipment', '🎒', 'the tools or supplies you need', 'Divers wear equipment like tanks and masks.', 'معدّات وأدوات'],
+  ['dangerous', '⚠️', 'likely to cause harm or injury', 'Climbing a high mountain can be dangerous.', 'خطير'],
+  ['parachute', '🪂', 'helps a person fall slowly from the sky', 'A parachute helps a skydiver land safely.', 'مظلّة هبوط'],
+  ['shipwreck', '⚓', 'a broken ship in the water', 'The divers found an old shipwreck.', 'حطام سفينة'],
+  ['explore', '🧭', 'to travel to a place to discover or learn about it', 'We love to explore new places.', 'يستكشف'],
+  ['accomplished', '🏆', 'completed something important or difficult', 'Laura accomplished something amazing.', 'أنجز'],
 ];
+
 addLesson({
   id: 'adventure-words', island: 'vocab', added: '2026-11-03', pic: '🪂',
   title: 'Adventure Words', sub: '10 brave new words',
   words: ADV_WORDS,
   learn: [
-    { title: 'Meet 10 adventure words', text: 'Tap each card to flip it and hear what the word means.', show: { kind: 'flashgrid' } },
-    { title: 'Words that go together', text: 'An <b>adventure</b> can be <b>dangerous</b>, so you need <b>courage</b> and the right <b>equipment</b>!',
+    { title: 'Meet 10 adventure words', titleAr: 'تعرّفي على ١٠ كلمات مغامرة', textAr: 'اضغطي على كل بطاقة لتقلبيها وتسمعي معنى الكلمة بالعربي.', text: 'Tap each card to flip it and hear what the word means.', show: { kind: 'flashgrid' } },
+    { title: 'Words that go together', titleAr: 'كلمات تأتي معاً', textAr: 'المغامرة (<b>adventure</b>) قد تكون خطيرة (<b>dangerous</b>)، لذلك تحتاجين الشجاعة (<b>courage</b>) والمعدّات (<b>equipment</b>)!', text: 'An <b>adventure</b> can be <b>dangerous</b>, so you need <b>courage</b> and the right <b>equipment</b>!',
       show: { kind: 'scene', pic: '🧗⛰️', items: [['🧗', 'adventure'], ['⚠️', 'dangerous'], ['🦁', 'courage'], ['🎒', 'equipment']] } },
-    { title: 'Adventures in the sky and sea', text: 'A skydiver needs a <b>parachute</b>. A diver might <b>explore</b> a <b>shipwreck</b>.',
+    { title: 'Adventures in the sky and sea', titleAr: 'مغامرات في السماء والبحر', textAr: 'القافز من الطائرة يحتاج مظلّة (<b>parachute</b>). والغوّاص قد يستكشف (<b>explore</b>) حطام سفينة (<b>shipwreck</b>).', text: 'A skydiver needs a <b>parachute</b>. A diver might <b>explore</b> a <b>shipwreck</b>.',
       show: { kind: 'scene', pic: '🪂☁️ 🤿⚓', items: [['🪂', 'parachute'], ['🧭', 'explore'], ['⚓', 'shipwreck']] } },
-    { title: 'After the adventure', text: 'With lots of <b>practice</b>, you can do something <b>extraordinary</b>. Then you have <b>accomplished</b> it!',
+    { title: 'After the adventure', titleAr: 'بعد المغامرة', textAr: 'مع التمرين الكثير (<b>practice</b>) تفعلين شيئاً رائعاً (<b>extraordinary</b>)، وعندها تكونين قد أنجزتِه (<b>accomplished</b>)!', text: 'With lots of <b>practice</b>, you can do something <b>extraordinary</b>. Then you have <b>accomplished</b> it!',
       show: { kind: 'scene', pic: '🎯➜🌟➜🏆', items: [['🎯', 'practice'], ['🌟', 'extraordinary'], ['🏆', 'accomplished']] } },
   ],
   acts: [
-    { type: 'match', title: 'Match the meaning', pick: 5, pairs: ADV_WORDS.map(w => [w[0], w[2], w[1], w[3]]) },
+    { type: 'match', title: 'Match the meaning', pick: 5, pairs: ADV_WORDS.map(w => [w[0], w[2], w[1], w[3], w[4]]) },
     {
       type: 'fill', title: 'Fill in the blanks', pick: 6,
-      start: 'Which adventure word fits the gap?',
+      start: 'Which adventure word fits the gap?', startAr: 'أي كلمة تناسب الفراغ؟',
       bank: ADV_WORDS.map(w => w[0]),
       items: [
         { s: 'She felt nervous, but showed ___ and climbed the tall mountain.', ans: 'courage', pic: '🧗‍♀️', why: '<b>Courage</b> means being brave even when you feel scared. She was nervous, but brave!' },
@@ -47,7 +48,7 @@ addLesson({
     },
     {
       type: 'mc', title: 'Which word means the same?', pick: 5,
-      start: 'Words that mean the same are called synonyms. Find the match!',
+      start: 'Words that mean the same are called synonyms. Find the match!', startAr: 'الكلمات التي لها نفس المعنى تسمّى مترادفات. جدي المرادف!',
       items: [
         { q: 'Which word means the same as <span class="hl">brave</span>?', opts: ['courage', 'equipment', 'shipwreck'], ans: 'courage', why: 'Being brave is having <b>courage</b>. 🦁' },
         { q: 'Which word means the same as <span class="hl">amazing</span>?', opts: ['extraordinary', 'dangerous', 'practice'], ans: 'extraordinary', why: 'Amazing and <b>extraordinary</b> both mean very special. 🌟' },
@@ -60,8 +61,8 @@ addLesson({
     },
     {
       type: 'mc', title: 'Use the word', pick: 4,
-      start: 'Only one sentence uses the word the right way. Find it!',
-      hint: 'Think about what the word means. Does that sentence make sense?',
+      start: 'Only one sentence uses the word the right way. Find it!', startAr: 'جملة واحدة فقط تستخدم الكلمة بشكل صحيح. جديها!',
+      hint: 'Think about what the word means. Does that sentence make sense?', hintAr: 'فكّري في معنى الكلمة. هل لهذه الجملة معنى؟',
       items: [
         { q: 'Which sentence uses <span class="hl">dangerous</span> correctly?', opts: ['It can be dangerous to swim in a storm.', 'I wore my dangerous to school.', 'We dangerous the cake with candles.'], ans: 'It can be dangerous to swim in a storm.', why: 'Swimming in a storm could hurt you. That is <b>dangerous</b>!' },
         { q: 'Which sentence uses <span class="hl">parachute</span> correctly?', opts: ['The parachute slowed him down.', 'I ate a parachute for breakfast.', 'She parachute her homework.'], ans: 'The parachute slowed him down.', why: 'A <b>parachute</b> slows a person down as they fall.' },
@@ -73,3 +74,9 @@ addLesson({
     },
   ],
 });
+/* Arabic: after each answer, also say what the word means in Arabic */
+LES('adventure-words').acts.forEach(a => (a.items || []).forEach(it => {
+  if (it.whyAr) return;
+  const w = ADV_WORDS.find(x => String(it.ans).toLowerCase().includes(x[0]) || (it.q || '').includes('>' + x[0] + '<'));
+  if (w) it.whyAr = `<b>${w[0]}</b> ${w[1]} معناها: <b>${w[4]}</b>`;
+}));

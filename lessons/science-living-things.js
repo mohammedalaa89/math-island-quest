@@ -1,0 +1,60 @@
+/* Grade 3 science: living and non-living things, and what living things need. English + Arabic. */
+addLesson({
+  id: 'living-things', island: 'lifelab', added: '2026-11-03', pic: '🌱',
+  title: 'Living and Non-living', sub: 'What makes something alive?',
+  learn: [
+    { title: 'Living or non-living?', titleAr: 'حيّ أم غير حيّ؟',
+      text: 'Some things are <b>alive</b>, like a cat or a tree. Some things are <b>not alive</b>, like a rock or a chair.',
+      textAr: 'بعض الأشياء <b>حيّة</b> مثل القطة والشجرة، وبعضها <b>غير حيّ</b> مثل الصخرة والكرسي.',
+      show: { kind: 'chips', items: [['🐈', 'cat (living)'], ['🌳', 'tree (living)'], ['🪨', 'rock (non-living)'], ['🪑', 'chair (non-living)']] } },
+    { title: 'Living things grow', titleAr: 'الكائنات الحيّة تنمو',
+      text: 'A seed grows into a plant. A baby grows into an adult. A rock never grows!',
+      textAr: 'البذرة تنمو وتصبح نبتة، والطفل يكبر ويصبح بالغاً. أما الصخرة فلا تنمو أبداً!',
+      show: { kind: 'html', html: '<div class="chipsrow" style="font-size:2.6rem;gap:6px"><span class="pop">🌰</span><span class="pop" style="animation-delay:.6s">➜ 🌱</span><span class="pop" style="animation-delay:1.2s">➜ 🌿</span><span class="pop" style="animation-delay:1.8s">➜ 🌳</span></div><div class="chipsrow" style="font-size:2.6rem;gap:6px"><span class="pop" style="animation-delay:2.4s">👶</span><span class="pop" style="animation-delay:3s">➜ 🧒</span><span class="pop" style="animation-delay:3.6s">➜ 🧑</span></div>' } },
+    { title: 'Living things need 4 things', titleAr: 'الكائنات الحيّة تحتاج ٤ أشياء',
+      text: 'All living things need <b>food</b>, <b>water</b>, <b>air</b> and a <b>home</b> (a safe place to live).',
+      textAr: 'كل الكائنات الحيّة تحتاج <b>الغذاء</b> و<b>الماء</b> و<b>الهواء</b> و<b>المأوى</b> (مكان آمن تعيش فيه).',
+      show: { kind: 'chips', items: [['🍎', 'food'], ['💧', 'water'], ['💨', 'air'], ['🏠', 'home']] } },
+    { title: 'More clues that something is alive', titleAr: 'علامات أخرى أن الشيء حيّ',
+      text: 'Living things <b>breathe</b>, <b>move</b> (even plants turn to the sun) and make <b>babies</b> or seeds.',
+      textAr: 'الكائنات الحيّة <b>تتنفّس</b> و<b>تتحرّك</b> (حتى النبات يتّجه نحو الشمس) و<b>تتكاثر</b> فتنجب صغاراً أو بذوراً.',
+      show: { kind: 'chips', items: [['🫁', 'breathe'], ['🌻', 'move to the sun'], ['🐣', 'make babies']] } },
+    { title: 'Tricky ones!', titleAr: 'أمثلة صعبة!',
+      text: 'A <b>car</b> moves, but it does not grow or eat. So it is <b>non-living</b>. The <b>sun</b> is not alive either!',
+      textAr: '<b>السيارة</b> تتحرّك، لكنها لا تنمو ولا تأكل، لذلك هي <b>غير حيّة</b>. و<b>الشمس</b> أيضاً ليست حيّة!',
+      show: { kind: 'scene', pic: '🚗 ☀️ 🔥', items: [['🚗', 'moves, but not alive'], ['☀️', 'shines, but not alive']] } },
+  ],
+  acts: [
+    {
+      type: 'sort', title: 'Living or non-living?', pick: 10,
+      ask: 'Drag each thing into the right box.', askAr: 'اسحبي كل شيء إلى الصندوق الصحيح.',
+      start: 'Does it grow, eat and breathe? Then it is living!', startAr: 'هل ينمو ويأكل ويتنفّس؟ إذن هو حيّ!',
+      hint: 'Does {w} grow? Does it need food and water?', hintAr: 'هل {w} ينمو؟ هل يحتاج غذاءً وماءً؟',
+      buckets: [
+        { label: 'Living', labelAr: 'حيّ', pic: '💚', why: '{w} grows and needs food and water. It is living!', whyAr: '{w} ينمو ويحتاج الغذاء والماء. إنه حيّ!' },
+        { label: 'Non-living', labelAr: 'غير حيّ', pic: '🪨', why: '{w} does not grow or eat. It is non-living.', whyAr: '{w} لا ينمو ولا يأكل. إنه غير حيّ.' },
+      ],
+      items: [['🐈 cat', 0], ['🌳 tree', 0], ['🐟 fish', 0], ['🌸 flower', 0], ['🐦 bird', 0], ['👧 girl', 0], ['🐪 camel', 0], ['🍄 mushroom', 0], ['🐜 ant', 0], ['🌵 cactus', 0],
+        ['🪨 rock', 1], ['🪑 chair', 1], ['🚗 car', 1], ['☀️ sun', 1], ['📚 book', 1], ['💧 water', 1], ['🧸 teddy', 1], ['⚽ ball', 1], ['🤖 robot', 1], ['☁️ cloud', 1]],
+    },
+    {
+      type: 'mc', title: 'What do living things need?', pick: 5,
+      items: [
+        { q: 'What does a plant need to grow?', qAr: 'ماذا تحتاج النبتة لتنمو؟', pic: '🌱', opts: ['water and sunlight', 'toys', 'a phone'], ans: 'water and sunlight', why: 'Plants need <b>water</b> and <b>sunlight</b> to make their food and grow.', whyAr: 'النباتات تحتاج <b>الماء</b> و<b>ضوء الشمس</b> لتصنع غذاءها وتنمو.' },
+        { q: 'Which one is NOT something living things need?', qAr: 'أيّ هذه لا تحتاجه الكائنات الحيّة؟', pic: '🤔', opts: ['television', 'water', 'air', 'food'], ans: 'television', why: 'Living things need food, water, air and a home. They do <b>not</b> need a TV!', whyAr: 'الكائنات الحيّة تحتاج الغذاء والماء والهواء والمأوى، ولا تحتاج <b>التلفاز</b>!' },
+        { q: 'Why is a car NOT living, even though it moves?', qAr: 'لماذا السيارة غير حيّة مع أنها تتحرّك؟', pic: '🚗', opts: ['It does not grow or eat.', 'It is too big.', 'It is red.'], ans: 'It does not grow or eat.', why: 'Moving is not enough. A car does <b>not grow</b>, eat or make babies.', whyAr: 'الحركة وحدها لا تكفي. السيارة <b>لا تنمو</b> ولا تأكل ولا تتكاثر.' },
+        { q: 'Where is a fish\'s home?', qAr: 'أين يعيش السمك؟', pic: '🐟', opts: ['water', 'a tree', 'the desert'], ans: 'water', why: 'A fish lives in <b>water</b>. Water is its home and it breathes there with gills.', whyAr: 'السمكة تعيش في <b>الماء</b>، فهو مأواها وتتنفّس فيه بالخياشيم.' },
+        { q: 'Which shows something growing?', qAr: 'أيّها يُظهر شيئاً ينمو؟', opts: ['🌱 ➜ 🌳', '🪨 ➜ 🪨', '🚗 ➜ 🚗'], ans: '🌱 ➜ 🌳', why: 'A little plant grows into a <b>big tree</b>. Growing means it is alive!', whyAr: 'النبتة الصغيرة تنمو وتصبح <b>شجرة كبيرة</b>. النموّ يعني أنها حيّة!' },
+        { q: 'What do all animals need to breathe?', qAr: 'ماذا تحتاج كل الحيوانات لتتنفّس؟', pic: '🐕', opts: ['air', 'sand', 'paper'], ans: 'air', why: 'Animals breathe <b>air</b> (oxygen) to stay alive.', whyAr: 'الحيوانات تتنفّس <b>الهواء</b> (الأكسجين) لتبقى حيّة.' },
+        { q: 'A camel lives in the desert. What is the desert for a camel?', qAr: 'الجمل يعيش في الصحراء. ماذا تكون الصحراء بالنسبة للجمل؟', pic: '🐪🏜️', opts: ['its home', 'its food', 'its toy'], ans: 'its home', why: 'The desert is the camel\'s <b>home</b> (habitat). It is where it lives safely.', whyAr: 'الصحراء هي <b>مأوى</b> الجمل وموطنه، حيث يعيش بأمان.' },
+      ],
+    },
+    {
+      type: 'match', title: 'Living things words', pick: 4,
+      pairs: [
+        ['grow', 'get bigger', '📏', '', 'ينمو'], ['breathe', 'take in air', '🫁', '', 'يتنفّس'], ['habitat', 'the place where an animal lives', '🏡', '', 'الموطن / المأوى'],
+        ['living', 'alive: it grows, eats and breathes', '💚', '', 'حيّ'], ['non-living', 'not alive', '🪨', '', 'غير حيّ'], ['seed', 'a tiny thing that grows into a plant', '🌰', '', 'بذرة'],
+      ],
+    },
+  ],
+});
