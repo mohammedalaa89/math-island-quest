@@ -401,3 +401,10 @@ body.rtl .ar{border-top:0;padding-top:0;margin-top:0}
 .stairs{display:flex;align-items:flex-end;gap:8px;direction:rtl}
 .stairs .st{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;width:100px;background:#13A89E;color:#fff;border-radius:12px 12px 0 0;padding-top:10px;font-family:"Baloo Bhaijaan 2",sans-serif;font-weight:700;font-size:1.1rem;animation:grow .6s both;transform-origin:bottom}
 .stairs .st i{font-style:normal;font-size:1.8rem}
+
+.story{display:flex;flex-direction:column;gap:8px;width:100%;max-width:600px}
+.sline{background:#fff;border-radius:14px;padding:10px 14px;text-align:start;font-size:1.15rem;line-height:1.55;box-shadow:0 3px 0 var(--line);font-family:var(--body);font-weight:700}
+.sline b{color:var(--c)}
+.sline.on{outline:3px solid var(--c);background:var(--cream)}
+.sline .ar{font-size:.95em}
+body.rtl .sline{font-family:"Baloo Bhaijaan 2",var(--display);font-weight:600;font-size:1.25rem}

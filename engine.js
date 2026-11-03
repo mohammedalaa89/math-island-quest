@@ -14,16 +14,16 @@ const SUBJECTS = [
     /* follows her book: enVision Mathematics Common Core, Grade 3 (Savvas), topics in book order */
     { sec: 'enVision Mathematics · Grade 3', secAr: 'كتاب الرياضيات · الصف الثالث', note: 'Topics in the same order as her book', noteAr: 'المواضيع بنفس ترتيب كتابها' },
     ['Topic 1: Understand multiplication and division', 'times'], ['Topic 1 game: Math Island quiz', 'mathgame'],
-    ['Topic 2: Multiplication facts: use patterns'], ['Topic 3: Multiplication facts for 3, 4, 6, 7, 8'], ['Topic 4: Use multiplication to divide'],
-    ['Topic 5: Multiply and divide within 100'], ['Topic 6: Area, multiplication and addition'], ['Topic 7: Represent and interpret data'],
-    ['Topic 8: Strategies to add and subtract'], ['Topic 9: Add and subtract within 1,000'], ['Topic 10: Multiply by multiples of 10'],
-    ['Topic 11: Solve problems with whole numbers'], ['Topic 12: Understand fractions as numbers'], ['Topic 13: Fraction equivalence and comparison'],
-    ['Topic 14: Time, capacity and mass'], ['Topic 15: Two-dimensional shapes'], ['Topic 16: Perimeter'] ] },
+    ['Topic 2: Multiplication facts: use patterns', 'm-t2'], ['Topic 3: Multiplication facts for 3, 4, 6, 7, 8', 'm-t3'], ['Topic 4: Use multiplication to divide', 'm-t4'],
+    ['Topic 5: Multiply and divide within 100', 'm-t5'], ['Topic 6: Area, multiplication and addition', 'm-t6'], ['Topic 7: Represent and interpret data', 'm-t7'],
+    ['Topic 8: Strategies to add and subtract', 'm-t8'], ['Topic 9: Add and subtract within 1,000', 'm-t9'], ['Topic 10: Multiply by multiples of 10', 'm-t10'],
+    ['Topic 11: Solve problems with whole numbers', 'm-t11'], ['Topic 12: Understand fractions as numbers', 'm-t12'], ['Topic 13: Fraction equivalence and comparison', 'm-t13'],
+    ['Topic 14: Time, capacity and mass', 'm-t14'], ['Topic 15: Two-dimensional shapes', 'm-t15'], ['Topic 16: Perimeter', 'm-t16'] ] },
   { id: 'english', name: 'English', ar: 'اللغة الإنجليزية', pic: '📖', color: '#7C4DFF', shade: '#5631C9', units: [
     /* follows her book: Our Literacy World G3 (Obelas, KSA edition) */
     { sec: 'Unit 3: Staying Healthy', secAr: 'الوحدة ٣: الحفاظ على الصحة', note: 'In class now · How do our bodies work?', noteAr: 'ندرسها الآن في الصف · كيف تعمل أجسامنا؟' },
-    ['Kickoff: bodies, health and story types', 'healthy'], ['Anchor text: Training Days'], ['Lesson 1: Happy and Healthy'], ['Lesson 2: You and Your Brain'], ['Lesson 3: Amara’s Bicycle'],
-    ['Lesson 4: Micro-Ray'], ['Lesson 5: Meet the Nanobots'], ['Lesson 6: The Race'], ['Finish Line: unit review'],
+    ['Kickoff: bodies, health and story types', 'healthy'], ['Anchor text: Training Days', 'e-training'], ['Lesson 1: Happy and Healthy', 'e-l1'], ['Lesson 2: You and Your Brain', 'e-l2'], ['Lesson 3: Amara’s Bicycle', 'e-l3'],
+    ['Lesson 4: Micro-Ray', 'e-l4'], ['Lesson 5: Meet the Nanobots', 'e-l5'], ['Lesson 6: The Race', 'e-l6'], ['Finish Line: unit review', 'e-finish'],
     { sec: 'Foundations and revision', secAr: 'الأساسيات والمراجعة', note: 'Letters, grammar, phonics and the Young Adventurers papers', noteAr: 'الحروف والقواعد والصوتيات وأوراق المغامرين الصغار' },
     ['Big and small letters', 'letters'], ['Nouns and capital letters', 'grammar'], ['Phonics: the long-a sound', 'phonics'], ['Vocabulary: adventure words', 'vocab'], ['Reading: Young Adventurers', 'story'] ] },
   { id: 'science', name: 'Science', ar: 'العلوم', pic: '🔬', color: '#22B566', shade: '#168048', units: [
@@ -32,19 +32,19 @@ const SUBJECTS = [
   { id: 'arabic', name: 'Arabic', ar: 'اللغة العربية', pic: '✍️', color: '#F0466B', shade: '#B82C4C', units: [
     /* follows her book: لغتي، الصف الثالث، الجزء الأول */
     { sec: 'مراجعة المكتسبات السابقة', secAr: 'مراجعة المكتسبات السابقة', note: 'Review', noteAr: 'مراجعة ما تعلّمناه' },
-    ['اللام الشمسية واللام القمرية', 'shamsiya'], ['التنوين', 'tanween'], ['أتعلّم فنّ الخط'],
-    { sec: 'الوحدة ١: التعامل مع الآخرين', secAr: 'الوحدة ١: التعامل مع الآخرين' }, ['الدرس ١: عادل في الطائرة'], ['الدرس ٢: عام دراسي جديد'], ['نموذج اختبار (١)'],
-    { sec: 'الوحدة ٢: ربوع من بلادي', secAr: 'الوحدة ٢: ربوع من بلادي' }, ['الدرس ١: الرياض والملك الشجاع'], ['الدرس ٢: مصايفنا'], ['نموذج اختبار (٢)'],
-    { sec: 'الوحدة ٣: أخلاق المسلم', secAr: 'الوحدة ٣: أخلاق المسلم' }, ['الدرس ١: التعاون'], ['الدرس ٢: الإيثار'], ['نموذج اختبار (٣)'],
-    { sec: 'الوحدة ٤: وسائل الاتصالات', secAr: 'الوحدة ٤: وسائل الاتصالات' }, ['الدرس ١: الهاتف المحمول'], ['الدرس ٢: الأقمار الصناعية'], ['نموذج اختبار (٤)'] ] },
+    ['اللام الشمسية واللام القمرية', 'shamsiya'], ['التنوين', 'tanween'], ['أتعلّم فنّ الخط', 'ar-khat'],
+    { sec: 'الوحدة ١: التعامل مع الآخرين', secAr: 'الوحدة ١: التعامل مع الآخرين' }, ['الدرس ١: عادل في الطائرة', 'ar-u1l1'], ['الدرس ٢: عام دراسي جديد', 'ar-u1l2'], ['نموذج اختبار (١)', 'ar-u1t'],
+    { sec: 'الوحدة ٢: ربوع من بلادي', secAr: 'الوحدة ٢: ربوع من بلادي' }, ['الدرس ١: الرياض والملك الشجاع', 'ar-u2l1'], ['الدرس ٢: مصايفنا', 'ar-u2l2'], ['نموذج اختبار (٢)', 'ar-u2t'],
+    { sec: 'الوحدة ٣: أخلاق المسلم', secAr: 'الوحدة ٣: أخلاق المسلم' }, ['الدرس ١: التعاون', 'ar-u3l1'], ['الدرس ٢: الإيثار', 'ar-u3l2'], ['نموذج اختبار (٣)', 'ar-u3t'],
+    { sec: 'الوحدة ٤: وسائل الاتصالات', secAr: 'الوحدة ٤: وسائل الاتصالات' }, ['الدرس ١: الهاتف المحمول', 'ar-u4l1'], ['الدرس ٢: الأقمار الصناعية', 'ar-u4l2'], ['نموذج اختبار (٤)', 'ar-u4t'] ] },
   { id: 'islamic', name: 'Islamic Studies', ar: 'التربية الإسلامية', pic: '🕌', color: '#13A89E', shade: '#0B7A72', units: [
     /* follows her book (Grade 3, volume 1) */
     { sec: 'التوحيد', secAr: 'التوحيد', note: 'Tawheed', noteAr: 'الوحدة الأولى: مراتب الدين · الوحدة الثانية: أركان الإسلام' },
-    ['الدرس ١: مراتب الدين', 'deen'], ['الدرس ٢: أركان الإسلام', 'pillars'], ['الدرس ٣: شهادة أن لا إله إلا الله'], ['الدرس ٤: شهادة أن محمداً رسول الله'],
-    ['الدرس ٥: إقام الصلاة'], ['الدرس ٦: إيتاء الزكاة'], ['الدرس ٧: صوم رمضان'], ['الدرس ٨: حج بيت الله الحرام'],
+    ['الدرس ١: مراتب الدين', 'deen'], ['الدرس ٢: أركان الإسلام', 'pillars'], ['الدرس ٣: شهادة أن لا إله إلا الله', 'is-t3'], ['الدرس ٤: شهادة أن محمداً رسول الله', 'is-t4'],
+    ['الدرس ٥: إقام الصلاة', 'is-t5'], ['الدرس ٦: إيتاء الزكاة', 'is-t6'], ['الدرس ٧: صوم رمضان', 'is-t7'], ['الدرس ٨: حج بيت الله الحرام', 'is-t8'],
     { sec: 'الفقه والسلوك', secAr: 'الفقه والسلوك', note: 'Fiqh and good manners', noteAr: 'الطهارة والتيمم والصلاة والمسجد' },
-    ['الدرس ١: آداب قضاء الحاجة (١)'], ['الدرس ٢: آداب قضاء الحاجة (٢)'], ['الدرس ٣: إزالة النجاسة عن البدن'], ['الدرس ٤: إزالة النجاسة عن الملابس ومكان الصلاة'],
-    ['الدرس ٥: التيمم'], ['الدرس ٦: مكانة الصلاة'], ['الدرس ٧: شروط الصلاة (١)'], ['الدرس ٨: شروط الصلاة (٢)'], ['الدرس ٩: آداب دخول المسجد والخروج منه'], ['الدرس ١٠: صلاة الجماعة'],
+    ['الدرس ١: آداب قضاء الحاجة (١)', 'is-f1'], ['الدرس ٢: آداب قضاء الحاجة (٢)', 'is-f2'], ['الدرس ٣: إزالة النجاسة عن البدن', 'is-f3'], ['الدرس ٤: إزالة النجاسة عن الملابس ومكان الصلاة', 'is-f4'],
+    ['الدرس ٥: التيمم', 'is-f5'], ['الدرس ٦: مكانة الصلاة', 'is-f6'], ['الدرس ٧: شروط الصلاة (١)', 'is-f7'], ['الدرس ٨: شروط الصلاة (٢)', 'is-f8'], ['الدرس ٩: آداب دخول المسجد والخروج منه', 'is-f9'], ['الدرس ١٠: صلاة الجماعة', 'is-f10'],
     { sec: 'القرآن الكريم', secAr: 'القرآن الكريم', note: 'Quran plan', noteAr: 'خطة مقرر القرآن الكريم' }, ['السور المقررة'] ] },
 ];
 /* Islands group lessons inside a subject */
@@ -63,6 +63,8 @@ const ISLANDS = [
   { id: 'story',    subject: 'english', name: 'Story Summit',  sub: 'Reading and understanding',    color: '#F0466B', shade: '#B82C4C', pic: '⛰️' },
   { id: 'lifelab',  subject: 'science', name: 'Life Lab',      sub: 'Living things',                color: '#22B566', shade: '#168048', pic: '🌱' },
 ];
+/* any unit with an island id not listed above gets an island in its subject's colours (pic comes from its lesson) */
+SUBJECTS.forEach(sj => sj.units.forEach(u => { if (u[1] && !ISLANDS.some(i => i.id === u[1])) ISLANDS.push({ id: u[1], subject: sj.id, name: u[0], sub: sj.name, color: sj.color, shade: sj.shade, pic: '', auto: true }); }));
 const TYPE_SUB = { mc: 'Pick the best answer', sort: 'Drag into the right box', caps: 'Tap words that need a capital', fill: 'Fly a word into the gap', match: 'Match the pairs', pattern: 'Find the letters that make the sound', samediff: 'Same letters or different?', tapletters: 'Tap the capital letters' };
 const TYPE_PIC = { mc: '🤔', sort: '🧺', caps: '🔠', fill: '✏️', match: '🔗', pattern: '🔍', samediff: '👯', tapletters: '👆' };
 const ISL = id => ISLANDS.find(i => i.id === id);
@@ -282,7 +284,10 @@ function route() {
   if ((m = /^a-(.+)-(\d+)$/.exec(h))) return actPage(m[1], +m[2]);
   home();
 }
-function boot() { window.addEventListener('hashchange', route); route(); }
+function boot() {
+  ISLANDS.forEach(I => { if (!I.pic) { const l = LESSONS.find(x => x.island === I.id); I.pic = l ? l.pic : '🏝️'; } });
+  window.addEventListener('hashchange', route); route();
+}
 const openTo = to => { if (/\.html/.test(to)) location.href = to; else go(to); };
 
 /* ---------- screens ---------- */
@@ -317,7 +322,7 @@ function home() {
   setColor(SUBJECTS[0]);
   const sug = suggestion();
   const cards = SUBJECTS.map((sj, k) => {
-    const nt = subjTests(sj.id).length, ready = sj.units.filter(u => u[1]).length;
+    const nt = subjTests(sj.id).length, ready = sj.units.filter(u => playable(u)).length;
     const fresh = subjLessons(sj.id).some(isNew) || subjTests(sj.id).some(t => (Date.now() - new Date(t.added)) / 864e5 < 14);
     return `<div class="scard" style="--c:${sj.color};--cs:${sj.shade};animation-delay:${k * .07}s">${fresh ? '<span class="new">New!</span>' : ''}
       <div class="sh2"><span class="blob">${sj.pic}</span><div><b>${sj.name}</b>${curLang() === 'ar' ? `<span class="ar" dir="rtl" lang="ar">${sj.ar}</span>` : ''}</div></div>
@@ -350,10 +355,12 @@ const quizPassed = (l, i) => (((S.prog[l.id] || {}).stars || {})[i] | 0) >= PASS
 const lessonPassed = l => { const p = S.prog[l.id]; return !!p && p.learn && l.acts.every((_, i) => quizPassed(l, i)); };
 const islandLessons = I => LESSONS.filter(l => l.island === I.id);
 const islandPassed = I => I.href ? true : islandLessons(I).length > 0 && islandLessons(I).every(lessonPassed);
+/* a unit is playable when its island has a page or at least one lesson */
+function playable(u) { const I = u && !u.sec && u[1] && ISL(u[1]); return I && (I.href || islandLessons(I).length) ? I : null; }
 /* an island is locked until every earlier island in the same section is passed */
 function unitLockedBy(sj, idx) {
   let k0 = 0; for (let k = idx - 1; k >= 0; k--) if (sj.units[k].sec) { k0 = k + 1; break; }
-  for (let k = k0; k < idx; k++) { const u = sj.units[k]; if (u[1] && !islandPassed(ISL(u[1]))) return k; } return -1;
+  for (let k = k0; k < idx; k++) { const I = playable(sj.units[k]); if (I && !islandPassed(I)) return k; } return -1;
 }
 /* island number inside its section */
 function unitNum(sj, idx) { let n = 0; for (let k = idx; k >= 0 && !sj.units[k].sec; k--) n++; return n; }
@@ -365,7 +372,7 @@ function unitsPage(sid) {
   let cur = -1;
   const stops = sj.units.map((u, k) => {
     if (u.sec) return { sec: u, k };
-    const I = u[1] && ISL(u[1]), lockBy = unitLockedBy(sj, k);
+    const I = playable(u), lockBy = unitLockedBy(sj, k);
     const state = !I ? 'later' : lockBy >= 0 ? 'locked' : islandPassed(I) && !I.href ? 'done' : 'open';
     if (state === 'open' && cur < 0) cur = k;
     let info = '';
@@ -499,6 +506,16 @@ const SHOW = {
       const lab = k === 0 ? 'start' : w.replace(/\W/g, '') === 'I' ? 'I' : 'name';
       later(my, t, () => { const el = $(`[data-k="${k}"]`, st); el.classList.add('fixed'); $('.f', el).textContent = w[0]; el.insertAdjacentHTML('beforeend', `<span class="why">${lab}</span>`); SFX.pop(); });
       t += 1100;
+    });
+  },
+  /* a short story: tap a sentence to hear it (Arabic translation under it in Arabic mode) */
+  read(st, d) {
+    const plain = t => String(t).replace(/<[^>]+>/g, '');
+    st.innerHTML = `${d.pic ? `<div class="scene">${d.pic}</div>` : ''}<div class="story">${d.lines.map((t, j) => `<button class="sline pop" style="animation-delay:${j * .2}s" data-j="${j}">${t}${d.linesAr && curLang() === 'ar' && !LANG_OVR ? arSpan(d.linesAr[j]) : ''}</button>`).join('')}</div>
+      <p class="muted">${bi('Tap a sentence to hear it.', 'اضغطي على الجملة لتسمعيها.')}</p>`;
+    $$('.sline', st).forEach(b => b.onclick = () => {
+      $$('.sline', st).forEach(x => x.classList.remove('on')); b.classList.add('on');
+      const j = +b.dataset.j; try { speechSynthesis.cancel(); speakOne(plain(d.lines[j]), 'en'); if (d.linesAr && curLang() === 'ar' && !LANG_OVR) speakOne(d.linesAr[j], 'ar'); } catch (e) {}
     });
   },
   /* letters: capital and small twins on handwriting lines */
