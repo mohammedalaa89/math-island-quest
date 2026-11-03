@@ -22,8 +22,8 @@ const SUBJECTS = [
   { id: 'english', name: 'English', ar: 'اللغة الإنجليزية', pic: '📖', color: '#7C4DFF', shade: '#5631C9', units: [
     /* follows her book: Our Literacy World G3 (Obelas, KSA edition) */
     { sec: 'Unit 3: Staying Healthy', secAr: 'الوحدة ٣: الحفاظ على الصحة', note: 'In class now · How do our bodies work?', noteAr: 'ندرسها الآن في الصف · كيف تعمل أجسامنا؟' },
-    ['Kickoff: bodies, health and story types', 'healthy'], ['Anchor text: Training Days', 'e-training'], ['Lesson 1: Happy and Healthy', 'e-l1'], ['Lesson 2: You and Your Brain', 'e-l2'], ['Lesson 3: Amara’s Bicycle', 'e-l3'],
-    ['Lesson 4: Micro-Ray', 'e-l4'], ['Lesson 5: Meet the Nanobots', 'e-l5'], ['Lesson 6: The Race', 'e-l6'], ['Finish Line: unit review', 'e-finish'],
+    ['Kickoff: bodies, health and story types', 'healthy'], ['Anchor text: Training Days', 'e-training'], ['Lesson 1: Happy and Healthy', 'e-l1'], ['Lesson 2: You and Your Brain', 'e-l2'], ['Lesson 3: Character and theme', 'e-l3'],
+    ['Lesson 4: Fantasy and point of view', 'e-l4'], ['Lesson 5: Compare and ask questions', 'e-l5'], ['Lesson 6: Narrative poetry', 'e-l6'], ['Finish Line: unit review', 'e-finish'],
     { sec: 'Foundations and revision', secAr: 'الأساسيات والمراجعة', note: 'Letters, grammar, phonics and the Young Adventurers papers', noteAr: 'الحروف والقواعد والصوتيات وأوراق المغامرين الصغار' },
     ['Big and small letters', 'letters'], ['Nouns and capital letters', 'grammar'], ['Phonics: the long-a sound', 'phonics'], ['Vocabulary: adventure words', 'vocab'], ['Reading: Young Adventurers', 'story'] ] },
   { id: 'science', name: 'Science', ar: 'العلوم', pic: '🔬', color: '#22B566', shade: '#168048', units: [
