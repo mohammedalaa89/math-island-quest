@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Math Island Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;800&display=swap">
+<style>
+/* Layout: one-column phone-first game card over a sky; island map, then one question per screen with an animated "watch why" stage. Deliberately single bright theme for a child. */
+:root{
+  --sky:#CDEBFF; --sky2:#E9F6FF; --card:#FFFFFF; --ink:#1E2A44; --soft:#5A6788;
+  --tang:#FF8A3D; --grape:#7C4DFF; --leaf:#22B566; --berry:#F0466B; --sun:#FFC83D;
+  --line:#D6E4F5; --lav:#F2EDFF; --lav2:#D8CCFF;
+  --display:"Fredoka","Baloo 2","Comic Sans MS",system-ui,sans-serif;
+  --body:"Nunito","Trebuchet MS",system-ui,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 60%,#F3FBFF 100%);background-color:var(--sky);color:var(--ink);font-family:var(--body);font-size:17px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px;}
+*{box-sizing:border-box}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.homeb{font-family:var(--display);font-weight:600;font-size:1rem;background:var(--card);border-radius:999px;padding:6px 12px;box-shadow:0 3px 0 var(--line);color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand{font-family:var(--display);font-weight:700;font-size:1.3rem;margin:0}
+.tr{display:flex;gap:8px;align-items:center}
+.starpill,.snd{display:flex;align-items:center;gap:6px;background:var(--card);border-radius:999px;padding:6px 14px 6px 10px;font-family:var(--display);font-weight:600;font-size:1.05rem;box-shadow:0 3px 0 var(--line)}
+.snd{padding:6px 12px;color:var(--grape)}
+.snd.on{background:var(--grape);color:#fff}
+.starpill svg,.snd svg{width:22px;height:22px}
+.card{background:var(--card);border-radius:24px;padding:22px 20px;box-shadow:0 6px 0 var(--line)}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:2rem;line-height:1.1}
+h2{font-size:1.5rem;line-height:1.2}
+p{margin:0;line-height:1.5}
+.muted{color:var(--soft)}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--grape);outline-offset:3px}
+.big{font-family:var(--display);font-weight:600;font-size:1.2rem;border-radius:18px;padding:14px 22px;background:var(--tang);color:#fff;box-shadow:0 5px 0 #C9601F;transition:transform .08s}
+.big:active{transform:translateY(3px);box-shadow:0 2px 0 #C9601F}
+.big.alt{background:var(--card);color:var(--ink);box-shadow:0 5px 0 var(--line);border:2px solid var(--line)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input#name{font:inherit;font-family:var(--display);font-size:1.3rem;padding:12px 16px;border-radius:16px;border:3px solid var(--line);width:100%;color:var(--ink);background:#fff}
+
+.map{display:flex;flex-direction:column;padding:6px 0}
+.isl{display:flex;align-items:center;gap:16px;padding:10px 0;text-align:left;background:none;width:100%}
+.isl.rev{flex-direction:row-reverse;text-align:right}
+.blob{flex:none;width:88px;height:88px;border-radius:44% 56% 52% 48%/50% 44% 56% 50%;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:700;font-size:2rem;box-shadow:0 6px 0 rgba(30,42,68,.18)}
+.isl .meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.isl .meta b{font-family:var(--display);font-size:1.3rem}
+.isl .meta span{color:var(--soft);font-size:.95rem}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{background:var(--sky2);border:3px solid var(--line);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.mode b{font-family:var(--display);font-size:1.1rem}
+.mode span{font-size:.85rem;color:var(--soft)}
+.mode.on{background:#fff;border-color:var(--grape);box-shadow:0 0 0 3px var(--lav2)}
+.mode.on b{color:var(--grape)}
+.isl .meta i{font-style:normal;font-weight:800;font-size:.9rem}
+.path{height:26px;border-left:4px dotted #9BC3E8;margin-left:44px}
+.path.r{margin-left:auto;margin-right:44px}
+
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.back{background:var(--card);border-radius:14px;padding:8px 14px;font-weight:800;box-shadow:0 3px 0 var(--line)}
+.bar{flex:1;height:14px;background:#fff;border-radius:99px;overflow:hidden;box-shadow:inset 0 0 0 2px var(--line)}
+.bar>div{height:100%;background:var(--leaf);border-radius:99px;transition:width .4s}
+.tag{font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.story{background:#FFF4E8;border-radius:16px;padding:14px 16px;line-height:1.55;font-weight:700}
+.story .kw{background:var(--sun);border-radius:6px;padding:0 4px}
+.qtext{font-family:var(--display);font-weight:600;font-size:1.55rem;line-height:1.25;text-wrap:balance}
+.qtext .hl{background:var(--sun);border-radius:8px;padding:0 6px}
+.speak{display:inline-flex;align-items:center;gap:6px;background:var(--sky2);border-radius:12px;padding:6px 12px;font-weight:800;font-size:.9rem;color:var(--grape)}
+.speak svg{width:18px;height:18px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.opt{font-family:var(--display);font-weight:600;font-size:1.4rem;background:#fff;border:3px solid var(--line);border-radius:18px;padding:16px 10px;box-shadow:0 5px 0 var(--line);min-height:72px;transition:transform .08s}
+.opt:active{transform:translateY(3px);box-shadow:0 2px 0 var(--line)}
+.opt.ok{background:var(--leaf);border-color:var(--leaf);color:#fff;box-shadow:0 5px 0 #168048}
+.opt.no{background:#FFE3E9;border-color:var(--berry);color:var(--berry);animation:shake .35s}
+.opt:disabled{cursor:default}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+.eq{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--display);font-weight:700;font-size:2.3rem;font-variant-numeric:tabular-nums}
+.eq .box{min-width:70px;height:70px;border-radius:16px;display:grid;place-items:center;background:var(--sky2);padding:0 8px}
+.eq .box.q{background:#fff;border:4px dashed var(--grape);color:var(--grape)}
+.eq .box.q.filled{border-style:solid;background:var(--leaf);border-color:var(--leaf);color:#fff}
+.fb{min-height:28px;font-family:var(--display);font-weight:600;font-size:1.25rem;text-align:center}
+.fb.good{color:var(--leaf)} .fb.bad{color:var(--berry)}
+
+/* animated explainer stage */
+.why{background:var(--lav);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.why .wh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.why .tag{color:var(--grape)}
+.replay{background:#fff;color:var(--grape);border-radius:12px;padding:6px 12px;font-weight:800;font-size:.9rem;box-shadow:0 2px 0 var(--lav2)}
+.stage{background:#fff;border-radius:16px;padding:14px 10px;min-height:150px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}
+.cap{font-family:var(--display);font-weight:600;font-size:1.2rem;line-height:1.35;text-align:center;min-height:3.2em;color:var(--ink);text-wrap:balance}
+.cap b{color:var(--grape)}
+.pile{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:300px;min-height:18px}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--tang);flex:none}
+.dot.apple{width:24px;height:24px;background:radial-gradient(circle at 35% 35%,#FF8A8A 0 3px,transparent 4px),#E5383B;border-radius:50% 50% 46% 46%;position:relative}
+.dot.apple::after{content:"";position:absolute;top:-5px;left:11px;width:7px;height:5px;background:#22B566;border-radius:0 6px 0 6px}
+.dot.orange{width:24px;height:24px;background:radial-gradient(circle at 35% 35%,#FFD29A 0 3px,transparent 4px),#FF9F1C}
+.dot.straw{width:20px;height:24px;border-radius:45% 45% 50% 50%/40% 40% 60% 60%;background:radial-gradient(circle at 30% 45%,#FFE9A8 0 1.2px,transparent 1.6px),radial-gradient(circle at 65% 40%,#FFE9A8 0 1.2px,transparent 1.6px),radial-gradient(circle at 50% 70%,#FFE9A8 0 1.2px,transparent 1.6px),#F0466B;border-top:4px solid #22B566}
+.dot.grape{width:18px;height:18px;background:radial-gradient(circle at 35% 35%,#C9B5FF 0 2px,transparent 3px),#7C4DFF}
+.bowl{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;align-content:center;max-width:320px;min-height:70px;padding:14px 16px;background:#FFF4E8;border:3px dashed var(--tang);border-radius:999px/60%;cursor:pointer}
+.bowl.empty{border-style:solid;border-color:var(--line);background:var(--sky2);font-family:var(--display);font-weight:600;color:var(--soft);cursor:default}
+.g.next{border-color:var(--tang);box-shadow:0 0 0 4px #FFE0C8}
+button.nt{border:0;font:inherit;cursor:pointer}
+.playbtn{background:var(--grape);box-shadow:0 5px 0 #5631C9}
+.playbtn:active{box-shadow:0 2px 0 #5631C9}
+.dot.cookie{width:24px;height:24px;background:radial-gradient(circle at 30% 35%,#5A3417 0 2.5px,transparent 3px),radial-gradient(circle at 65% 30%,#5A3417 0 2px,transparent 2.5px),radial-gradient(circle at 55% 68%,#5A3417 0 2.5px,transparent 3px),radial-gradient(circle at 28% 70%,#5A3417 0 1.8px,transparent 2.2px),#E8A85A;box-shadow:inset 0 -2px 0 #C98535}
+.g.plate{border-radius:50%/40%;background:#fff;border:3px solid var(--line);padding:10px 8px 6px;min-width:84px}
+.g.plate .in{max-width:92px}
+.wn{align-self:center;min-width:160px}
+.round{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--grape);background:var(--lav);border-radius:99px;padding:4px 14px}
+.dot.pen{width:8px;height:22px;border-radius:3px 3px 6px 6px;background:linear-gradient(180deg,#FFC83D 0 75%,#F0A070 75% 88%,#1E2A44 88%)}
+.dot.book{width:12px;height:18px;border-radius:2px;background:var(--grape)}
+.dot.fold{width:20px;height:15px;border-radius:3px;background:var(--leaf)}
+.grps{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
+.g{background:var(--sky2);border:2px solid var(--line);border-radius:14px;padding:8px 6px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:62px;transition:transform .25s,border-color .25s,background .25s}
+.g .in{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:96px;min-height:22px}
+.g .lbl{font-family:var(--display);font-weight:700;font-size:1rem;color:var(--soft)}
+.g .who{font-size:.72rem;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.06em}
+.g.star{border-color:var(--grape);background:#fff;transform:scale(1.08)}
+.g.star .lbl{color:var(--grape);font-size:1.4rem}
+.rows{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.r{display:flex;align-items:center;gap:10px;animation:pop .35s both}
+.r .in{display:flex;gap:4px;background:var(--sky2);border-radius:10px;padding:6px 8px}
+.tot{font-family:var(--display);font-weight:700;font-size:1.2rem;color:var(--grape);min-width:36px;font-variant-numeric:tabular-nums}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:none}}
+.hops{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.hop{font-family:var(--display);font-weight:700;font-size:1.2rem;background:var(--sky2);border-radius:12px;padding:6px 10px;animation:jump .45s both}
+.hop.end{background:var(--leaf);color:#fff}
+@keyframes jump{0%{opacity:0;transform:translateY(-22px)}60%{transform:translateY(4px)}100%{opacity:1;transform:none}}
+.nums{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;max-width:340px}
+.nt{background:var(--sky2);border-radius:12px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;transition:background .3s}
+.nt b{font-family:var(--display);font-size:1.3rem}
+.nt .pr{display:grid;grid-template-columns:repeat(5,10px);grid-auto-rows:10px;gap:3px;min-height:23px}
+.nt .pr span{width:10px;height:10px;border-radius:50%;background:var(--tang)}
+.nt.ev{background:#DDF6E8}.nt.ev b{color:var(--leaf)}
+.nt.od{background:#FFE3E9}.nt.od b{color:var(--berry)}
+.nt.od .pr span.left{background:var(--berry);outline:2px solid var(--berry);outline-offset:1px}
+.lab{display:flex;gap:10px;justify-content:center;align-items:flex-start;font-family:var(--display);flex-wrap:wrap}
+.lab .p{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:44px}
+.lab .p b{font-size:2.2rem;border-radius:12px;padding:0 8px;transition:background .3s}
+.lab .p span{font-size:.85rem;font-weight:700;color:var(--grape);opacity:0;transform:translateY(-6px);transition:all .35s;text-transform:uppercase;letter-spacing:.04em}
+.lab .p.show span{opacity:1;transform:none}
+.lab .p.show b{background:var(--lav)}
+.lab .p.tgt.show b{background:var(--sun)}
+.house{width:220px;max-width:100%}
+.house .n{transition:fill .3s}
+.house circle{transition:fill .3s,r .3s}
+.facts{display:flex;flex-direction:column;gap:4px;align-items:center;font-family:var(--display);font-weight:600;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.facts div{animation:pop .35s both}
+.facts .me{background:var(--sun);border-radius:8px;padding:0 8px}
+.kwbox{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.3rem;animation:pop .35s both}
+.kwbox .sym{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:#fff;font-size:2rem}
+
+.paper{background:repeating-linear-gradient(180deg,#fff 0 38px,#CFE0F5 38px 40px);border-radius:16px;padding:10px 18px 14px;border-left:6px solid var(--berry)}
+.paper div{font-family:var(--display);font-weight:600;font-size:1.45rem;line-height:40px;font-variant-numeric:tabular-nums}
+.next{align-self:stretch}
+.burst{position:fixed;pointer-events:none;z-index:50;width:26px;height:26px}
+.trophy{width:140px;margin:0 auto;display:block}
+.center{text-align:center;align-items:center}
+.stack{display:flex;flex-direction:column;gap:16px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.burst{display:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app"></div>
+
+<script>
+const STAR='<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z" fill="#FFC83D" stroke="#E0A21A" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const rnd=(lo,hi)=>lo+Math.floor(Math.random()*(hi-lo+1));
+const uniq=(ans,cands,n)=>{const out=[String(ans)];for(const c of cands){const s=String(c);if(out.length>=n)break;if(!out.includes(s)&&!(typeof c==='number'&&c<0))out.push(s);}let k=1;while(out.length<n){const s=String(Number(ans)+k++);if(!out.includes(s))out.push(s);}return shuffle(out);};
+const cardTitle=()=>S.mode==='sheet'?'Copy this onto your paper:':'Say it out loud, then write it on scrap paper:';
+const FAM=(a,b,p)=>[
+ {t:'fill',fam:[a,b,p],eq:[a,'×',b,'=',null],ans:p,anim:{k:'fam',me:0}},
+ {t:'fill',fam:[a,b,p],eq:[b,'×',null,'=',p],ans:a,anim:{k:'fam',me:1}},
+ {t:'fill',fam:[a,b,p],eq:[p,'÷',b,'=',null],ans:a,anim:{k:'fam',me:2}},
+ {t:'fill',fam:[a,b,p],eq:[null,'÷',a,'=',b],ans:p,anim:{k:'fam',me:3}},
+ {t:'card',title:'Fact family done! '+cardTitle(),lines:[`${a} × ${b} = ${p}`,`${b} × ${a} = ${p}`,`${p} ÷ ${a} = ${b}`,`${p} ÷ ${b} = ${a}`]}
+];
+const randFam=()=>{const a=rnd(2,9);let b=rnd(2,10);while(b===a)b=rnd(2,10);return FAM(a,b,a*b);};
+const WORDS=['PRODUCT','QUOTIENT','DIVIDEND','DIVISOR'];
+
+const qDiv=(b,q)=>({t:'mc',q:`What is ${b*q} ÷ ${b}?`,opts:uniq(q,[q+1,q-1,q+2,b],3),ans:String(q),anim:{k:'div',a:b*q,b}});
+const qHelp=(b,q)=>{const xs=[q-2>0?q-2:q+2,q+1];return {t:'mc',q:`Which fact helps you solve ${b*q} ÷ ${b}?`,opts:shuffle([q,...xs].map(x=>`${b} × ${x} = ${b*x}`)),ans:`${b} × ${q} = ${b*q}`,anim:{k:'skip',s:b,e:b*q}};};
+const qZero=n=>({t:'mc',q:`What is 0 ÷ ${n}?`,opts:shuffle(['0','1',String(n)]),ans:'0',anim:{k:'div',a:0,b:n,thing:'cookies',who:'friend'}});
+const qOne=n=>({t:'mc',q:`What is ${n} ÷ 1?`,opts:shuffle(['0','1',String(n)]),ans:String(n),anim:{k:'div',a:n,b:1,thing:'cookies',who:'friend'}});
+function qEven(fixed){
+  if(fixed)return {t:'mc',q:'Which list has only even numbers?',opts:['0, 2, 4, 6, 8','0, 1, 2, 3, 4','6, 5, 4, 3, 2'],ans:'0, 2, 4, 6, 8',anim:{k:'even'}};
+  const ev=shuffle([0,2,4,6,8]).slice(0,4).sort((x,y)=>x-y);
+  const w1=[...ev];w1[rnd(0,3)]=[1,3,5,7,9][rnd(0,4)];
+  const st=rnd(0,5),w2=[st,st+1,st+2,st+3];
+  const f=l=>l.join(', ');
+  return {t:'mc',q:'Which list has only even numbers?',opts:shuffle([f(ev),f([...new Set(w1)].sort((x,y)=>x-y)),f(w2)]),ans:f(ev),anim:{k:'even'}};
+}
+const wProd=(a,b)=>({t:'mc',q:'The answer to a <span class="hl">multiplication</span> problem is the …',opts:shuffle(WORDS),ans:'PRODUCT',anim:{k:'lab',parts:[[a,'factor'],['×'],[b,'factor'],['='],[a*b,'product']],tgt:4}});
+const wQuot=(b,q)=>({t:'mc',q:'The answer to a <span class="hl">division</span> problem is the …',opts:shuffle(WORDS),ans:'QUOTIENT',anim:{k:'lab',parts:[[b*q,'dividend'],['÷'],[b,'divisor'],['='],[q,'quotient']],tgt:4}});
+const wDend=(b,q)=>({t:'mc',q:`In ${b*q} ÷ ${b} = ${q}, the number <span class="hl">${b*q}</span> is the …`,opts:shuffle(WORDS),ans:'DIVIDEND',anim:{k:'lab',parts:[[b*q,'dividend'],['÷'],[b,'divisor'],['='],[q,'quotient']],tgt:0}});
+const wDsor=(b,q)=>({t:'mc',q:`In ${b*q} ÷ ${b} = ${q}, the number <span class="hl">${b}</span> is the …`,opts:shuffle(WORDS),ans:'DIVISOR',anim:{k:'lab',parts:[[b*q,'dividend'],['÷'],[b,'divisor'],['='],[q,'quotient']],tgt:2}});
+
+function story(b,q,c,d,m,n){
+  const a=b*q,P={k:'div',a,b,thing:'pencils',who:'student',cls:'pen'},B={k:'mul',a:c,b:d,thing:'books',grp:'shelf',cls:'book'},F={k:'mul',a:m,b:n,thing:'folders',grp:'class',cls:'fold'};
+  return [
+   {t:'mc',story:`A teacher has ${a} pencils. She <span class="kw">shares them equally</span> among ${b} students.`,q:'Which number sentence matches?',opts:shuffle([`${a} ÷ ${b}`,`${a} × ${b}`,`${a} − ${b}`]),ans:`${a} ÷ ${b}`,anim:{...P,op:'÷',kw:'shares equally'}},
+   {t:'mc',story:`A teacher has ${a} pencils. She shares them equally among ${b} students.`,q:'How many pencils does each student get?',opts:uniq(q,[q-1,q+1,a+b],4),ans:String(q),anim:P},
+   {t:'card',title:cardTitle(),lines:[`Sentence: ${a} ÷ ${b} = ${q}`,`Each student gets ${q} pencils.`]},
+   {t:'mc',story:`There are ${c} shelves. <span class="kw">Each shelf holds</span> ${d} books.`,q:'Which number sentence matches?',opts:shuffle([`${c} + ${d}`,`${c} × ${d}`,`${d} − ${c}`]),ans:`${c} × ${d}`,anim:{...B,op:'×',kw:'each shelf holds'}},
+   {t:'mc',story:`There are ${c} shelves. Each shelf holds ${d} books.`,q:'How many books are there altogether?',opts:uniq(c*d,[c*d-d,c*d+d,c+d],4),ans:String(c*d),anim:B},
+   {t:'card',title:cardTitle(),lines:[`Sentence: ${c} × ${d} = ${c*d}`,`There are ${c*d} books altogether.`]},
+   {t:'mc',story:`Angela has ${m} classes. <span class="kw">Each class needs</span> ${n} folders.`,q:'Which number sentence matches?',opts:shuffle([`${m} + ${n}`,`${m} × ${n}`,`${m} − ${n}`]),ans:`${m} × ${n}`,anim:{...F,op:'×',kw:'each class needs'}},
+   {t:'mc',story:`Angela has ${m} classes. Each class needs ${n} folders.`,q:'How many folders does Angela need?',opts:uniq(m*n,[m+n,m*n+n,m*n-n],4),ans:String(m*n),anim:F},
+   {t:'card',title:cardTitle(),lines:[`Sentence: ${m} × ${n} = ${m*n}`,`Angela needs ${m*n} folders.`]},
+   ...FAM(n,m,m*n)
+  ];
+}
+function dq(){return [rnd(2,6),rnd(2,8)];}
+function nm(){let m=rnd(3,8),n=rnd(2,4);if(m===n)m++;return [m,n];}
+const GEN=[
+ r=>r?[qDiv(...dq()),qHelp(rnd(3,6),rnd(3,8)),qZero(rnd(2,9)),qOne(rnd(2,9)),qEven(false),qDiv(...dq())]
+     :[qDiv(4,6),qHelp(5,7),qZero(6),qOne(9),qEven(true),qDiv(5,3)],
+ r=>r?[wProd(rnd(2,9),rnd(2,9)),wQuot(...dq()),wDend(...dq()),wDsor(...dq())]
+     :[wProd(4,3),wQuot(3,4),wDend(4,6),wDsor(5,7)],
+ r=>r?[...randFam(),...randFam(),...randFam()]:[...FAM(4,5,20),...FAM(9,10,90),...FAM(5,8,40)],
+ r=>r?story(rnd(3,6),rnd(3,8),rnd(3,8),rnd(3,9),...nm()):story(4,7,7,8,5,2)
+];
+const LEVELS=[
+ {name:'Quick Pick',sub:'Choose the right answer',color:'var(--tang)'},
+ {name:'Word Match',sub:'Product, quotient, dividend, divisor',color:'var(--grape)'},
+ {name:'Fact Families',sub:'Three numbers, four facts',color:'var(--leaf)'},
+ {name:'Story Problems',sub:'Pencils, books and folders',color:'var(--berry)'}
+];
+const genLevel=k=>{LEVELS[k].qs=GEN[k](S.mode!=='sheet');};
+
+const CHEERS=['Great job!','Awesome!','You got it!','Super star!','Brilliant!','Yes! Well done!'];
+const TRY=['Not quite. Let\'s play to find it!','Almost! Try the fruits below.','Keep going, you can do it!'];
+
+let S={name:'',stars:0,done:[0,0,0,0],sound:false,mode:'practice'};
+try{const s=JSON.parse(localStorage.getItem('mathIsland')||'null');if(s&&Array.isArray(s.done))S=Object.assign(S,s);}catch(e){}
+const save=()=>{try{localStorage.setItem('mathIsland',JSON.stringify(S))}catch(e){}};
+
+const app=document.getElementById('app');
+let cur={lv:0,i:0,tries:0,solved:false};
+let tok=0;
+
+function say(t,force){
+  if(!S.sound&&!force)return;
+  try{
+    const clean=t.replace(/<[^>]+>/g,'').replace(/÷/g,' divided by ').replace(/×/g,' times ').replace(/−/g,' minus ').replace(/=/g,' equals ').replace(/…/g,' blank ').replace(/\?/g,' what ');
+    speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean);u.rate=.9;speechSynthesis.speak(u);
+  }catch(e){}
+}
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const wait=ms=>new Promise(r=>setTimeout(r,RM?Math.min(ms,250):ms));
+const topBar=()=>`<div class="top"><a class="homeb" href="./" aria-label="All islands">&#8592; Islands</a><p class="brand">Math Island</p><div class="tr"><button class="snd${S.sound?' on':''}" id="snd" aria-pressed="${S.sound}">${SPK}${S.sound?'On':'Off'}</button><div class="starpill">${STAR}<span id="sc">${S.stars}</span></div></div></div>`;
+function wireTop(){const b=document.getElementById('snd');if(b)b.onclick=()=>{S.sound=!S.sound;save();b.classList.toggle('on',S.sound);b.innerHTML=SPK+(S.sound?'On':'Off');b.setAttribute('aria-pressed',S.sound);if(!S.sound)try{speechSynthesis.cancel()}catch(e){}else say('Sound is on!');};}
+
+function home(){
+  if(!S.name){
+    app.innerHTML=topBar()+`<div class="card stack">
+      <h1>Ready for an adventure?</h1>
+      <p class="muted">Visit four islands, answer questions, and collect stars. After every answer, a little animation shows <b>why</b> it is right.</p>
+      <label for="name" style="font-weight:800">What's your name?</label>
+      <input id="name" maxlength="20" placeholder="Type your name" autocomplete="off">
+      <button class="big" id="go">Let's go!</button></div>`;
+    wireTop();
+    const go=()=>{S.name=(document.getElementById('name').value.trim()||'Explorer');save();map();};
+    document.getElementById('go').onclick=go;
+    document.getElementById('name').onkeydown=e=>{if(e.key==='Enter')go();};
+  } else map();
+}
+
+function map(){
+  tok++;
+  let html=topBar()+`<div class="card stack"><h2>Hi ${esc(S.name)}! Pick an island</h2><p class="muted">Go in order, just like your worksheet. Tap an island to start.</p>
+  <div class="modes" role="group" aria-label="Numbers"><button class="mode${S.mode!=='sheet'?' on':''}" data-m="practice"><b>Practice</b><span>New numbers every time</span></button><button class="mode${S.mode==='sheet'?' on':''}" data-m="sheet"><b>My worksheet</b><span>The numbers on her paper</span></button></div><div class="map">`;
+  LEVELS.forEach((L,k)=>{
+    const n=L.qs.length,d=Math.min(S.done[k],n),full=d>=n;
+    html+=`<button class="isl${k%2?' rev':''}" data-k="${k}"><div class="blob" style="background:${L.color}">${full?'✓':k+1}</div><div class="meta"><b>${L.name}</b><span>${L.sub}</span><i style="color:${L.color}">${full?'Finished!':d?`${d} of ${n} done`:'Not started'}</i></div></button>`;
+    if(k<LEVELS.length-1)html+=`<div class="path${k%2?'':' r'}"></div>`;
+  });
+  html+=`</div></div><button class="big alt" id="reset">Start over from the beginning</button>`;
+  app.innerHTML=html;wireTop();
+  app.querySelectorAll('.isl').forEach(b=>b.onclick=()=>{const k=+b.dataset.k;start(k,S.done[k]>=LEVELS[k].qs.length?0:S.done[k]);});
+  app.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{if(S.mode===b.dataset.m)return;S.mode=b.dataset.m;S.done=[0,0,0,0];save();LEVELS.forEach((_,k)=>genLevel(k));map();});
+  document.getElementById('reset').onclick=()=>{S.stars=0;S.done=[0,0,0,0];save();map();};
+}
+
+function start(lv,i){if(S.mode!=='sheet'||i===0)genLevel(lv);cur={lv,i,tries:0,solved:false};render();}
+
+function render(){
+  tok++;
+  const L=LEVELS[cur.lv],Q=L.qs[cur.i];
+  if(!Q){finish();return;}
+  const pct=Math.round(cur.i/L.qs.length*100);
+  let h=topBar()+`<div class="qhead"><button class="back" id="back">← Map</button><div class="bar"><div style="width:${pct}%"></div></div><span class="tag" style="color:${L.color}">${cur.i+1}/${L.qs.length}</span></div><div class="card stack" id="qc">`;
+  h+=`<span class="tag" style="color:${L.color}">${L.name}</span>`;
+  if(Q.t==='card'){
+    h+=`<h2>${Q.title}</h2><div class="paper">${Q.lines.map(l=>`<div>${l}</div>`).join('')}</div><button class="big next" id="nx">I wrote it! Next</button>`;
+  } else {
+    if(Q.story)h+=`<div class="story">${Q.story}</div>`;
+    if(Q.t==='mc') h+=`<div class="qtext">${Q.q}</div>`;
+    else {
+      h+=`<div class="qtext">Find the missing number</div><div class="muted">Family: <b>${Q.fam.join(', ')}</b></div>`;
+      h+=`<div class="eq">${Q.eq.map(x=>x===null?`<div class="box q" id="qb">?</div>`:(typeof x==='number'?`<div class="box">${x}</div>`:`<span>${x}</span>`)).join('')}</div>`;
+    }
+    h+=`<div class="row"><button class="speak" id="sp">${SPK} Read to me</button></div>`;
+    const opts=Q.t==='mc'?Q.opts:shuffle(Q.fam.map(String));
+    h+=`<div class="opts">${opts.map(o=>`<button class="opt" data-v="${esc(String(o))}">${o}</button>`).join('')}</div>`;
+    h+=`<div class="fb" id="fb" aria-live="polite"></div><div id="whybox"></div>`;
+    h+=`<div class="row"><button class="big playbtn" id="hb">Play with fruits to find out</button></div>`;
+  }
+  h+=`</div>`;
+  app.innerHTML=h;wireTop();
+  document.getElementById('back').onclick=map;
+  if(Q.t==='card'){document.getElementById('nx').onclick=advance;say(Q.title);return;}
+  const qtxt=(Q.story?Q.story+' ':'')+(Q.t==='mc'?Q.q:'Find the missing number. '+Q.eq.map(x=>x===null?'what number':x).join(' '));
+  document.getElementById('sp').onclick=()=>say(qtxt,true);
+  say(qtxt);
+  document.getElementById('hb').onclick=()=>openPlay(Q);
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(b,Q));
+}
+
+function pick(b,Q){
+  if(cur.solved)return;
+  const v=b.dataset.v,ok=v===String(Q.ans),fb=document.getElementById('fb');
+  if(ok){
+    cur.solved=true;b.classList.add('ok');
+    app.querySelectorAll('.opt').forEach(x=>x.disabled=true);
+    const qb=document.getElementById('qb');if(qb){qb.textContent=Q.ans;qb.classList.add('filled');}
+    if(cur.tries===0){S.stars++;save();document.getElementById('sc').textContent=S.stars;burst(b);}
+    fb.className='fb good';fb.textContent=CHEERS[Math.floor(Math.random()*CHEERS.length)]+(cur.tries===0?' +1 star':'');
+    const hb=document.getElementById('hb');hb.textContent='Next question →';hb.className='big next';hb.onclick=advance;
+    playWhy(Q,true);
+  } else {
+    cur.tries++;b.classList.remove('no');void b.offsetWidth;b.classList.add('no');b.disabled=true;
+    fb.className='fb bad';fb.textContent=TRY[Math.min(cur.tries-1,TRY.length-1)];
+    openPlay(Q);
+  }
+}
+
+/* ---------- animated explainer ---------- */
+function playWhy(Q,reveal){
+  const box=document.getElementById('whybox');if(!box)return;
+  const my=++tok;
+  box.innerHTML=`<div class="why"><div class="wh"><span class="tag">${reveal?'Watch why it is right':"Let's figure it out"}</span><button class="replay" id="rp">↻ Start again</button></div><div class="stage" id="stg"></div><div class="cap" id="cap" aria-live="polite"></div><button class="big wn" id="wn" hidden>Next ▶</button></div>`;
+  document.getElementById('rp').onclick=()=>playWhy(Q,reveal);
+  setTimeout(()=>{try{box.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})}catch(e){}},60);
+  const stg=document.getElementById('stg'),capEl=document.getElementById('cap'),wn=document.getElementById('wn');
+  const alive=()=>my===tok;
+  /* every explanation step waits for her tap on Next, so she goes at her own speed */
+  const cap=(html,ms,last)=>new Promise((res,rej)=>{
+    if(!alive())return rej(0);
+    capEl.innerHTML=html;say(html);
+    wn.hidden=false;wn.textContent=last?'Got it! ✓':'Next ▶';
+    wn.onclick=()=>{wn.hidden=true;if(!alive())return rej(0);if(last){document.getElementById('hb')?.focus();}res();};
+  });
+  const A=Q.anim;
+  const run={div:animDiv,mul:animMul,skip:animSkip,even:animEven,lab:animLab,fam:animFam}[A.k];
+  run(A,Q,reveal,stg,cap,alive).catch(()=>{});
+}
+
+async function animDiv(A,Q,reveal,stg,cap,alive){
+  const {a,b}=A,each=a/b,thing=A.thing||'cookies',who=A.who||'friend',cls=A.cls||'cookie';
+  const whos=b===1?who:who+'s';
+  const capNow=t=>{document.getElementById('cap').innerHTML=t;say(t);};
+  if(A.op){
+    stg.innerHTML=`<div class="kwbox"><div class="sym" style="background:var(--berry)">÷</div><span>"${A.kw}" = <b>sharing</b></span></div>`;
+    await cap(`Look at the words <b>"${A.kw}"</b>. That means <b>sharing fairly</b>. Sharing is <b>division ÷</b>.`);
+  }
+  stg.innerHTML=`<div class="pile" id="pile">${('<span class="dot '+cls+'"></span>').repeat(a)}</div><div class="round" id="rnd" hidden></div><div class="grps">${Array.from({length:b},(_,i)=>`<div class="g plate"><div class="who">${who} ${i+1}</div><div class="in"></div><div class="lbl">0</div></div>`).join('')}</div>`;
+  const pile=stg.querySelector('#pile'),rnd=stg.querySelector('#rnd'),gs=[...stg.querySelectorAll('.g')];
+  if(a===0){
+    await cap(`We have <b>0 ${thing}</b> and ${b} ${whos}. The bowl is empty!`);
+    gs.forEach(g=>g.classList.add('star'));
+    await cap(reveal?`Nothing to share, so every ${who} gets <b>0</b>.<br><b>0 ÷ ${b} = 0</b>`:`If there is nothing to share, how many does each ${who} get?`,0,true);
+    return;
+  }
+  await cap(`We have <b>${a} ${thing}</b> and <b>${b} ${whos}</b>.<br>Fair sharing means everyone gets the <b>same</b>.`);
+  await cap(`We give <b>one</b> to each ${who}, again and again, until none are left. Tap Next to watch!`);
+  rnd.hidden=false;
+  for(let r=1;r<=each;r++){
+    rnd.textContent=`Round ${r}`;
+    capNow(reveal||r<each?`Round ${r}: every ${who} gets one more.${reveal?` Each ${who} has <b>${r}</b>.`:''}`:`Last round!`);
+    for(let i=0;i<b;i++){
+      if(!alive())throw 0;
+      const d=pile.lastElementChild;if(!d)break;
+      const g=gs[i],inn=g.querySelector('.in');
+      const r1=d.getBoundingClientRect();inn.appendChild(d);const r2=d.getBoundingClientRect();
+      if(!RM)d.animate([{transform:`translate(${r1.left-r2.left}px,${r1.top-r2.top}px) scale(1.3)`},{transform:'none'}],{duration:450,easing:'cubic-bezier(.3,.7,.4,1)'});
+      g.querySelector('.lbl').textContent=(reveal||r<each)?inn.children.length:'?';
+      await wait(b>4?180:300);
+    }
+    await wait(900);
+  }
+  rnd.textContent=`${each} rounds`;
+  gs[0].classList.add('star');
+  if(reveal){
+    await cap(`All ${a} ${thing} are shared! Every ${who} has <b>${each}</b>.${b===1?' With only 1 '+who+', they get them all!':''}`);
+    await cap(`So <b>${a} ÷ ${b} = ${each}</b><br>Check: ${b>1?Array(b).fill(each).join(' + '):each} = <b>${a}</b> ✓`,0,true);
+  } else {
+    await cap(`All shared! Now count the ${thing} on the purple plate. That is your answer!`,0,true);
+  }
+}
+
+async function animMul(A,Q,reveal,stg,cap,alive){
+  const {a,b}=A,p=a*b,thing=A.thing||'dots',grp=A.grp||'group',cls=A.cls||'';
+  const grps=grp==='shelf'?'shelves':grp==='class'?'classes':grp+'s';
+  if(A.op){
+    stg.innerHTML=`<div class="kwbox"><div class="sym" style="background:var(--leaf)">×</div><span>"${A.kw}" means <b>equal groups</b></span></div>`;
+    await cap(`<b>"${A.kw}"</b> tells us every ${grp} has the <b>same</b> number. Equal groups means <b>multiply ×</b>.`,2800);
+  }
+  stg.innerHTML=`<div class="rows" id="rows"></div>`;
+  const rows=stg.querySelector('#rows');
+  await cap(`We have <b>${a} ${grps}</b> with <b>${b} ${thing}</b> on each one. Let's count by ${b}s!`,2200);
+  for(let i=1;i<=a;i++){
+    if(!alive())throw 0;
+    const hide=!reveal&&i===a;
+    const r=document.createElement('div');r.className='r';
+    r.innerHTML=`<div class="in">${('<span class="dot '+cls+'"></span>').repeat(b)}</div><span class="tot">${hide?'?':i*b}</span>`;
+    rows.appendChild(r);
+    document.getElementById('cap').innerHTML=hide?`One more ${grp}… what comes next?`:`${i} ${i===1?grp:grps} → <b>${i*b}</b> ${thing}`;
+    say(hide?'what comes next?':String(i*b));
+    await wait(900);
+  }
+  if(reveal){
+    await cap(`${a} groups of ${b} makes <b>${p}</b>. So <b>${a} × ${b} = ${p}</b>!`,2600);
+    if(a===7&&b===8)await cap(`Memory trick: <b>5, 6, 7, 8</b> → <b>56 = 7 × 8</b>`,2600);
+    if(A.op)await cap(`That's why the number sentence is <b>${a} × ${b}</b>.`,2200);
+  } else await cap(`Add <b>${b}</b> more to <b>${(a-1)*b}</b>. What do you get?`,0,true);
+}
+
+async function animSkip(A,Q,reveal,stg,cap,alive){
+  const {s,e}=A,n=e/s;
+  stg.innerHTML=`<div class="hops" id="hops"></div>`;
+  const hops=stg.querySelector('#hops');
+  await cap(`To solve <b>${e} ÷ ${s}</b>, ask: <b>${s} times what makes ${e}?</b> Let's hop by ${s}s!`,2600);
+  for(let i=1;i<=n;i++){
+    if(!alive())throw 0;
+    const c=document.createElement('span');c.className='hop'+(i===n?' end':'');c.textContent=i*s;hops.appendChild(c);
+    document.getElementById('cap').innerHTML=`Hop ${i}: <b>${i*s}</b>`;say(String(i*s));
+    await wait(750);
+  }
+  if(reveal){
+    await cap(`We reached ${e} in <b>${n} hops</b>. So <b>${s} × ${n} = ${e}</b>.`,2400);
+    await cap(`That means <b>${e} ÷ ${s} = ${n}</b>. The fact <b>${s} × ${n} = ${e}</b> helps!`,0,true);
+  } else await cap(`How many hops did it take to reach ${e}? Find the fact with that number.`,0,true);
+}
+
+async function animEven(A,Q,reveal,stg,cap,alive){
+  stg.innerHTML=`<div class="nums">${Array.from({length:10},(_,n)=>`<div class="nt" data-n="${n}"><b>${n}</b><div class="pr"></div></div>`).join('')}</div>`;
+  await cap(`An <b>even</b> number can make <b>pairs</b> with nothing left over. Let's test each number!`,2400);
+  const tiles=[...stg.querySelectorAll('.nt')];
+  for(const t of tiles){
+    if(!alive())throw 0;
+    const n=+t.dataset.n,pr=t.querySelector('.pr');
+    for(let i=0;i<n;i++){const d=document.createElement('span');pr.appendChild(d);}
+    pr.style.gridTemplateColumns=`repeat(${Math.max(1,Math.ceil(n/2))},10px)`;
+    pr.style.gridAutoFlow='column';pr.style.gridTemplateRows='repeat(2,10px)';
+    if(n%2){pr.lastElementChild.classList.add('left');t.classList.add('od');}else t.classList.add('ev');
+    document.getElementById('cap').innerHTML=n===0?`<b>0</b> has no leftovers, so it is even!`:n%2?`<b>${n}</b> has one left over. Odd!`:`<b>${n}</b> makes perfect pairs. Even!`;
+    say(n%2?n+' is odd':n+' is even');
+    await wait(850);
+  }
+  await cap(`Even numbers end in <b>0, 2, 4, 6, 8</b>. Odd ones end in 1, 3, 5, 7, 9.`,2600);
+  await cap(reveal?`Only <b>${Q.ans}</b> has no odd numbers sneaking in!`:`Look at each list. Which one has NO red odd numbers?`,0,true);
+}
+
+async function animLab(A,Q,reveal,stg,cap,alive){
+  const ps=A.parts;
+  stg.innerHTML=`<div class="lab">${ps.map((p,i)=>`<div class="p${i===A.tgt?' tgt':''}"><b>${p[0]}</b><span>${p[1]||''}</span></div>`).join('')}</div>`;
+  const els=[...stg.querySelectorAll('.p')];
+  const isMul=ps[1][0]==='×';
+  await cap(`Every number in a ${isMul?'multiplication':'division'} problem has a <b>job name</b>. Let's meet them!`,2200);
+  const tips={dividend:'the big number being shared',divisor:'the number we divide BY',quotient:'the answer to division',product:'the answer to multiplication',factor:'a number we multiply'};
+  const order=ps.map((p,i)=>i).filter(i=>ps[i][1]&&i!==A.tgt);
+  for(const i of order){
+    if(!alive())throw 0;
+    els[i].classList.add('show');
+    await cap(`<b>${ps[i][0]}</b> is the <b>${ps[i][1]}</b>: ${tips[ps[i][1]]}.`,2000);
+  }
+  const t=ps[A.tgt];
+  if(reveal){
+    els[A.tgt].classList.add('show');
+    await cap(`And <b>${t[0]}</b> is the <b>${t[1].toUpperCase()}</b>: ${tips[t[1]]}!`,0,true);
+  } else {
+    els[A.tgt].querySelector('span').textContent='?';els[A.tgt].classList.add('show');
+    await cap(`What job does the yellow number <b>${t[0]}</b> have? ${A.tgt===4?'It is the answer!':A.tgt===0?'It is the number being shared.':'We divide by it.'}`,0,true);
+  }
+}
+
+async function animFam(A,Q,reveal,stg,cap,alive){
+  const [a,b,p]=Q.fam;
+  stg.innerHTML=`<svg class="house" viewBox="0 0 220 170">
+    <path d="M110 12 L205 150 L15 150 Z" fill="#fff" stroke="#7C4DFF" stroke-width="5" stroke-linejoin="round"/>
+    <circle id="cp" cx="110" cy="72" r="28" fill="#F2EDFF"/><circle id="ca" cx="62" cy="122" r="24" fill="#F2EDFF"/><circle id="cb" cx="158" cy="122" r="24" fill="#F2EDFF"/>
+    <text id="op" x="110" y="131" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="26" fill="#7C4DFF"></text>
+    <text class="n" id="tp" x="110" y="83" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="30" fill="#1E2A44">${p}</text>
+    <text class="n" id="ta" x="62" y="132" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="26" fill="#1E2A44">${a}</text>
+    <text class="n" id="tb" x="158" y="132" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="26" fill="#1E2A44">${b}</text>
+  </svg><div class="facts" id="facts"></div>`;
+  const $=id=>stg.querySelector('#'+id),facts=$('facts');
+  const glow=(ids,color)=>{['cp','ca','cb'].forEach(c=>$(c).setAttribute('fill','#F2EDFF'));ids.forEach(c=>$(c).setAttribute('fill',color));};
+  const F=[`${a} × ${b} = ${p}`,`${b} × ${a} = ${p}`,`${p} ÷ ${b} = ${a}`,`${p} ÷ ${a} = ${b}`];
+  const add=(i)=>{const d=document.createElement('div');d.textContent=F[i];if(reveal&&i===A.me)d.className='me';facts.appendChild(d);};
+  await cap(`This is the <b>fact family house</b> for <b>${a}, ${b}, ${p}</b>. The biggest number lives on top.`,2400);
+  glow(['ca','cb'],'#FFE0C8');$('op').textContent='×';
+  await cap(`Multiply the two bottom numbers: <b>${a} × ${b}</b> …`,1800);
+  glow(['cp'],'#FFC83D');add(0);
+  await cap(`… makes the top number <b>${p}</b>!`,1800);
+  glow(['ca','cb'],'#FFE0C8');add(1);
+  await cap(`Swap them, same answer: <b>${b} × ${a} = ${p}</b>.`,2000);
+  if(!reveal){
+    glow(['cp'],'#FFC83D');$('op').textContent='';
+    await cap(`To <b>divide</b>, start at the top <b>${p}</b> and divide by one bottom number. You get the other one! Try again.`,0,true);
+    return;
+  }
+  $('op').textContent='÷';glow(['cp','cb'],'#DDF6E8');
+  await cap(`Now divide! Start at the top: <b>${p} ÷ ${b}</b> …`,1800);
+  glow(['ca'],'#22B566');add(2);
+  await cap(`… gives the other bottom number <b>${a}</b>.`,1800);
+  glow(['cp','ca'],'#DDF6E8');await wait(500);glow(['cb'],'#22B566');add(3);
+  await cap(`And <b>${p} ÷ ${a} = ${b}</b>. Four facts, one family!`,2000);
+  await cap(`Your question was the <b>yellow</b> one: <b>${F[A.me]}</b>.`,0,true);
+}
+
+
+/* ---------- hands-on fruit play: she does the sharing / grouping herself ---------- */
+const FRUITS=[['apple','apples'],['orange','oranges'],['straw','strawberries'],['grape','grapes']];
+function playSpec(Q){
+  const A=Q.anim,fi=FRUITS[(cur.i+cur.lv)%FRUITS.length];
+  const f={cls:fi[0],thing:fi[1]};
+  if(A.k==='div')return {k:'div',a:A.a,b:A.b,cls:A.cls||f.cls,thing:A.thing&&A.thing!=='cookies'?A.thing:f.thing,who:A.who||'basket'};
+  if(A.k==='mul')return {k:'mul',a:A.a,b:A.b,cls:A.cls||f.cls,thing:A.thing||f.thing,grp:A.grp||'basket'};
+  if(A.k==='skip')return {k:'div',a:A.e,b:A.s,...f,who:'basket',tail:n=>`So <b>${A.s} × ${n} = ${A.e}</b>. Find that fact above!`};
+  if(A.k==='fam'){const [a,b,p]=Q.fam;
+    if(A.me===0)return {k:'mul',a,b,...f,grp:'basket'};
+    if(A.me===1)return {k:'div',a:p,b,...f,who:'basket',tail:n=>`So <b>${b} × ${n} = ${p}</b>. The missing number is ${n}!`};
+    if(A.me===2)return {k:'div',a:p,b,...f,who:'basket'};
+    return {k:'mul',a,b,...f,grp:'basket',tail:t=>`${a} baskets of ${b} is <b>${t}</b>. So <b>${t} ÷ ${a} = ${b}</b>. The missing number is ${t}!`};}
+  if(A.k==='even')return {k:'even'};
+  return null;
+}
+function openPlay(Q){
+  const P=playSpec(Q);if(!P){playWhy(Q,false);return;}
+  const box=document.getElementById('whybox');tok++;
+  box.innerHTML=`<div class="why"><div class="wh"><span class="tag">Play with ${P.k==='even'?'fruit pairs':P.thing}</span><button class="replay" id="rp">↻ Start again</button></div><div class="stage" id="stg"></div><div class="cap" id="cap" aria-live="polite"></div></div>`;
+  document.getElementById('rp').onclick=()=>openPlay(Q);
+  setTimeout(()=>{try{box.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})}catch(e){}},60);
+  ({div:playDiv,mul:playMul,even:playEven})[P.k](P,document.getElementById('stg'));
+}
+const setCap=t=>{const c=document.getElementById('cap');if(c){c.innerHTML=t;say(t);}};
+const fruit=cls=>`<span class="dot ${cls}"></span>`;
+
+function playDiv(P,stg){
+  const {a,b,cls,thing,who}=P,whos=b===1?who:who+'s';
+  stg.innerHTML=`<button class="bowl" id="bowl" aria-label="Tap to share one">${fruit(cls).repeat(a)}</button>
+    <div class="row" style="justify-content:center"><button class="replay" id="fast">Share the rest for me</button></div>
+    <div class="grps">${Array.from({length:b},(_,i)=>`<div class="g plate"><div class="who">${who} ${i+1}</div><div class="in"></div><div class="lbl">0</div></div>`).join('')}</div>`;
+  const bowl=stg.querySelector('#bowl'),gs=[...stg.querySelectorAll('.g')];let n=0,busy=false;
+  if(a===0){bowl.classList.add('empty');bowl.textContent='Empty bowl';stg.querySelector('#fast').hidden=true;gs.forEach(g=>g.classList.add('star'));
+    setCap(`The bowl is <b>empty</b>! There is nothing to give, so every ${who} gets <b>0</b>.`);return;}
+  setCap(`<b>Tap the bowl</b> to give one ${thing.replace(/s$/,'').replace(/ie$/,'y')} away. It goes to the next ${who} in line, so it stays fair!`);
+  const give=()=>{
+    const d=bowl.lastElementChild;if(!d)return false;
+    const g=gs[n%b],inn=g.querySelector('.in');
+    const r1=d.getBoundingClientRect();inn.appendChild(d);const r2=d.getBoundingClientRect();
+    if(!RM)d.animate([{transform:`translate(${r1.left-r2.left}px,${r1.top-r2.top}px) scale(1.4)`},{transform:'none'}],{duration:420,easing:'cubic-bezier(.3,.7,.4,1)'});
+    g.querySelector('.lbl').textContent=inn.children.length;
+    gs.forEach(x=>x.classList.remove('next'));n++;
+    if(bowl.children.length){gs[n%b].classList.add('next');setCap(`${a-n} left in the bowl. Keep tapping!`);}
+    else done();
+    return true;
+  };
+  gs[0].classList.add('next');
+  bowl.onclick=()=>{if(!busy)give();};
+  stg.querySelector('#fast').onclick=async()=>{if(busy)return;busy=true;const my=tok;while(my===tok&&give())await wait(160);busy=false;};
+  function done(){
+    const each=a/b;bowl.classList.add('empty');bowl.textContent='All shared!';stg.querySelector('#fast').hidden=true;
+    gs.forEach(g=>g.classList.add('star'));burst(gs[0]);
+    setCap(`Every ${who} has <b>${each}</b> ${thing}!<br>${P.tail?P.tail(each):`So <b>${a} ÷ ${b} = ${each}</b>. Now tap <b>${each}</b> above!`}`);
+  }
+}
+
+function playMul(P,stg){
+  const {a,b,cls,thing,grp}=P,grps=grp==='shelf'?'shelves':grp==='class'?'classes':grp+'s';
+  stg.innerHTML=`<button class="big" id="add" style="background:var(--leaf);box-shadow:0 5px 0 #168048">+ Add a ${grp}</button><div class="rows" id="rows"></div><div class="round" id="tot">Total: 0</div>`;
+  const add=stg.querySelector('#add'),rows=stg.querySelector('#rows'),tot=stg.querySelector('#tot');let k=0;
+  setCap(`We need <b>${a} ${grps}</b> with <b>${b} ${thing}</b> in each. <b>Tap the green button</b> to add one!`);
+  add.onclick=()=>{
+    if(k>=a)return;k++;
+    const r=document.createElement('div');r.className='r';
+    r.innerHTML=`<div class="in">${fruit(cls).repeat(b)}</div><span class="tot">${k*b}</span>`;rows.appendChild(r);
+    tot.textContent=`Total: ${k*b}`;
+    if(k<a){add.textContent=`+ Add a ${grp} (${a-k} more)`;setCap(`${k} ${k===1?grp:grps} → <b>${k*b}</b> ${thing}. Count on by ${b}!`);}
+    else{add.hidden=true;burst(tot);
+      setCap(`${a} ${grps} with ${b} each makes <b>${k*b}</b>!<br>${P.tail?P.tail(k*b):`So <b>${a} × ${b} = ${a*b}</b>. Now tap <b>${a*b}</b> above!`}`);}
+  };
+}
+
+function playEven(P,stg){
+  stg.innerHTML=`<div class="nums">${Array.from({length:10},(_,n)=>`<button class="nt" data-n="${n}"><b>${n}</b><div class="pr"></div></button>`).join('')}</div>`;
+  setCap(`<b>Tap each number</b>. If its strawberries all make <b>pairs</b>, it is even. One left over? Odd!`);
+  let seen=0;
+  stg.querySelectorAll('.nt').forEach(t=>t.onclick=()=>{
+    if(t.dataset.done)return;t.dataset.done=1;seen++;
+    const n=+t.dataset.n,pr=t.querySelector('.pr');
+    for(let i=0;i<n;i++){const d=document.createElement('span');pr.appendChild(d);}
+    pr.style.gridTemplateColumns=`repeat(${Math.max(1,Math.ceil(n/2))},10px)`;pr.style.gridAutoFlow='column';pr.style.gridTemplateRows='repeat(2,10px)';
+    if(n%2){pr.lastElementChild.classList.add('left');t.classList.add('od');}else t.classList.add('ev');
+    setCap(seen===10?`Green ones are even: <b>0, 2, 4, 6, 8</b>. Find the list that has only green numbers!`:n===0?`<b>0</b>: no leftovers. Even!`:n%2?`<b>${n}</b>: one left over. Odd!`:`<b>${n}</b>: all in pairs. Even!`);
+  });
+}
+
+function advance(){
+  cur.i++;cur.tries=0;cur.solved=false;
+  S.done[cur.lv]=Math.max(S.done[cur.lv],cur.i);save();
+  render();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
+}
+
+function finish(){
+  tok++;
+  const last=cur.lv===LEVELS.length-1, allDone=LEVELS.every((L,k)=>S.done[k]>=L.qs.length);
+  app.innerHTML=topBar()+`<div class="card stack center">
+   <svg class="trophy" viewBox="0 0 140 140"><path d="M40 20h60v30a30 30 0 0 1-60 0z" fill="#FFC83D" stroke="#E0A21A" stroke-width="4"/><path d="M40 28H22a18 18 0 0 0 20 24M100 28h18a18 18 0 0 1-20 24" fill="none" stroke="#E0A21A" stroke-width="6" stroke-linecap="round"/><rect x="62" y="80" width="16" height="20" fill="#E0A21A"/><rect x="42" y="100" width="56" height="16" rx="5" fill="#7C4DFF"/></svg>
+   <h1>${allDone?`You finished every island, ${esc(S.name)}!`:`${LEVELS[cur.lv].name} complete!`}</h1>
+   <p class="muted">You have ${S.stars} stars. ${allDone?'Now check your paper answers before you finish!':'On to the next island!'}</p>
+   ${!last&&!allDone?`<button class="big" id="nl">Next island →</button>`:''}
+   <button class="big alt" id="mp">Back to the map</button></div>`;
+  wireTop();
+  for(let i=0;i<8;i++)setTimeout(()=>burst(document.querySelector('.trophy')),i*120);
+  const nl=document.getElementById('nl');if(nl)nl.onclick=()=>start(cur.lv+1,0);
+  document.getElementById('mp').onclick=map;
+}
+
+function burst(el){
+  if(!el||RM)return;const r=el.getBoundingClientRect();
+  for(let i=0;i<6;i++){
+    const s=document.createElement('div');s.className='burst';s.innerHTML=STAR;
+    s.style.left=(r.left+r.width/2-13)+'px';s.style.top=(r.top+r.height/2-13)+'px';
+    document.body.appendChild(s);
+    const ang=Math.random()*Math.PI*2,d=60+Math.random()*60;
+    s.animate([{transform:'translate(0,0) scale(.4)',opacity:1},{transform:`translate(${Math.cos(ang)*d}px,${Math.sin(ang)*d}px) scale(1.1)`,opacity:0}],{duration:700,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>s.remove();
+  }
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+LEVELS.forEach((_,k)=>genLevel(k));
+home();
+</script>
+</body>
+</html>
