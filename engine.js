@@ -178,7 +178,7 @@ const SPEAK_FIX = [[/<br\s*\/?>/g, '. '], [/<[^>]+>/g, ''], [/_{2,}/g, ' blank '
 /* read fractions like a teacher: 3/4 -> "3 fourths", 1/2 -> "1 half" */
 const FRAC = { 2: ['half', 'halves'], 3: ['third', 'thirds'], 4: ['fourth', 'fourths'], 5: ['fifth', 'fifths'], 6: ['sixth', 'sixths'], 8: ['eighth', 'eighths'], 10: ['tenth', 'tenths'], 12: ['twelfth', 'twelfths'] };
 const sayFrac = (m, a, b) => FRAC[b] ? ` ${a} ${FRAC[b][+a === 1 ? 0 : 1]} ` : ` ${a} over ${b} `;
-const cleanSpeech = t => { let c = String(t).replace(/(\d+)\s*\/\s*(\d+)/g, sayFrac); SPEAK_FIX.forEach(([a, b]) => { c = c.replace(a, b); }); return c.replace(/\s+/g, ' ').trim(); };
+const cleanSpeech = t => { let c = String(t).replace(/(\d+)\s*\/\s*(\d+)/g, sayFrac); c = c.replace(/_{2,}|…/g, /[\u0600-\u06FF]/.test(c) ? ' فراغ ' : ' blank '); SPEAK_FIX.forEach(([a, b]) => { c = c.replace(a, b); }); return c.replace(/\s+/g, ' ').trim(); };
 function speakOne(text, lang) {
   if (/[\u0600-\u06FF]/.test(text) && !/[A-Za-z]{3,}/.test(cleanSpeech(text))) lang = 'ar';
   const u = new SpeechSynthesisUtterance(cleanSpeech(text)); if (!u.text) return;
